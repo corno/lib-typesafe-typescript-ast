@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "api-dynamic-typescript-parser": "^0.2.0",
+    "api-pareto-ugly-stuff": "^0.3.0",
+    "pareto-core-lib": "^0.6.0",
+    "pareto-core-state": "^0.6.0"
+  },
+  "name": "typesafe-typescript-ast-lib",
+  "version": "0.8.0",
+  "author": "Corno",
+  "bugs": {
+    "url": "https://github.com/corno/typesafe-typescript-ast-lib/issues"
+  },
+  "description": "this package creates a typesafe TypeScript AST. Instead of just 1 generic 'Node' type, there over a hundred specific types. This is useful if you want to want to code that is dependent on the type of node from the AST",
+  "homepage": "https://github.com/corno/typesafe-typescript-ast-lib#readme",
+  "keywords": [
+    "TypeScript",
+    "AST",
+    "typesafe"
+  ],
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corno/typesafe-typescript-ast-lib.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "interface-fingerprint": "2ebe717b35b77fc194189862185311ed905c3a87",
+  "content-fingerprint": "4f7f27e4756a438e76860106d35970bd849a88ff"
+}
