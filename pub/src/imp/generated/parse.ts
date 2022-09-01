@@ -57,7 +57,7 @@ export function parse(
                     )
                     pl.cc(elements.getArray(), ($) => {
                         callback({
-                            annotation: node.details,
+                            tokenDetails: node.details,
                             content: $,
                         })
                     })
@@ -110,7 +110,7 @@ export function parse(
                     const children = pm.createStack($.children)
                     const sequenceEnd = ($: api.TVTGvariableDeclaration$) => {
                         callback({
-                            annotation: node.details,
+                            tokenDetails: node.details,
                             content: $,
                         })
                     }
@@ -307,7 +307,7 @@ export function parse(
                                                                         const children = pm.createStack($.children)
                                                                         Gidentifier(node, children, ($) => {
                                                                             callback({
-                                                                                annotation: node.details,
+                                                                                tokenDetails: node.details,
                                                                                 content: $,
                                                                             })
                                                                         })
@@ -424,7 +424,7 @@ export function parse(
                                             )
                                             pl.cc(elements.getArray(), ($) => {
                                                 callback({
-                                                    annotation: node.details,
+                                                    tokenDetails: node.details,
                                                     content: $,
                                                 })
                                             })
@@ -540,7 +540,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGtypeSignature_property$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -746,7 +746,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGtypeSignature_method$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -805,7 +805,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGtypeSignature_index$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -952,7 +952,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGtypeSignature_construct$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -1067,7 +1067,7 @@ export function parse(
                     const children = pm.createStack($.children)
                     Gidentifier(node, children, ($) => {
                         callback({
-                            annotation: node.details,
+                            tokenDetails: node.details,
                             content: $,
                         })
                     })
@@ -1232,7 +1232,7 @@ export function parse(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -1325,7 +1325,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGtype_typeReference$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -1422,7 +1422,7 @@ export function parse(
                                                         const children = pm.createStack($.children)
                                                         const sequenceEnd = ($: api.TVTGtype_typeReference$_x_qualifiedName$) => {
                                                             callback({
-                                                                annotation: node.details,
+                                                                tokenDetails: node.details,
                                                                 content: $,
                                                             })
                                                         }
@@ -1608,7 +1608,7 @@ export function parse(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -1719,7 +1719,7 @@ export function parse(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -1768,7 +1768,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 Gtype(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -1905,7 +1905,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 Gtype(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -1954,7 +1954,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const choiceEnd_Gtype_literal$ = ($: api.TVTGtype_literal$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -2080,7 +2080,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGtype_function$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -2261,7 +2261,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 Gtype(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -2440,7 +2440,7 @@ export function parse(
                     const node = $
                     const children = pm.createStack($.children)
                     callback({
-                        annotation: $.details,
+                        tokenDetails: $.details,
                         value: $.value
                     })
                     children.pop(
@@ -2498,7 +2498,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_while$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -2557,7 +2557,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_variable$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -2639,7 +2639,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_typeAlias$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -2746,7 +2746,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_try$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -2770,7 +2770,7 @@ export function parse(
                                                 const children = pm.createStack($.children)
                                                 const sequenceEnd = ($: api.TVTGstatement_try$_catchClause$) => {
                                                     callback({
-                                                        annotation: node.details,
+                                                        tokenDetails: node.details,
                                                         content: $,
                                                     })
                                                 }
@@ -2859,7 +2859,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -2908,7 +2908,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_switch$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -3024,7 +3024,7 @@ export function parse(
                                                                             )
                                                                             pl.cc(elements.getArray(), ($) => {
                                                                                 callback({
-                                                                                    annotation: node.details,
+                                                                                    tokenDetails: node.details,
                                                                                     content: $,
                                                                                 })
                                                                             })
@@ -3073,7 +3073,7 @@ export function parse(
                                                                             const children = pm.createStack($.children)
                                                                             const sequenceEnd = ($: api.TVTGstatement_switch$_caseBlock$_case$) => {
                                                                                 callback({
-                                                                                    annotation: node.details,
+                                                                                    tokenDetails: node.details,
                                                                                     content: $,
                                                                                 })
                                                                             }
@@ -3224,7 +3224,7 @@ export function parse(
                                                 )
                                                 pl.cc(elements.getArray(), ($) => {
                                                     callback({
-                                                        annotation: node.details,
+                                                        tokenDetails: node.details,
                                                         content: $,
                                                     })
                                                 })
@@ -3376,7 +3376,7 @@ export function parse(
                                 )
                                 pl.cc(optional, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -3425,7 +3425,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_labeled$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -3484,7 +3484,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_interface$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -3617,7 +3617,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_import$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -3639,7 +3639,7 @@ export function parse(
                                             const children = pm.createStack($.children)
                                             const choiceEnd_Gstatement_import$_clause$ = ($: api.TVTGstatement_import$_clause$) => {
                                                 callback({
-                                                    annotation: node.details,
+                                                    tokenDetails: node.details,
                                                     content: $,
                                                 })
                                             }
@@ -3682,7 +3682,7 @@ export function parse(
                                                                                     const children = pm.createStack($.children)
                                                                                     const sequenceEnd = ($: api.TVTGstatement_import$_clause$_named$$) => {
                                                                                         callback({
-                                                                                            annotation: node.details,
+                                                                                            tokenDetails: node.details,
                                                                                             content: $,
                                                                                         })
                                                                                     }
@@ -3751,7 +3751,7 @@ export function parse(
                                                                     )
                                                                     pl.cc(elements.getArray(), ($) => {
                                                                         callback({
-                                                                            annotation: node.details,
+                                                                            tokenDetails: node.details,
                                                                             content: $,
                                                                         })
                                                                     })
@@ -3800,7 +3800,7 @@ export function parse(
                                                                     const children = pm.createStack($.children)
                                                                     Gidentifier(node, children, ($) => {
                                                                         callback({
-                                                                            annotation: node.details,
+                                                                            tokenDetails: node.details,
                                                                             content: $,
                                                                         })
                                                                     })
@@ -3933,7 +3933,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_if$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -4063,7 +4063,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_function$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -4169,7 +4169,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_for$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -4236,7 +4236,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -4285,7 +4285,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 GstringLiteral(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -4334,7 +4334,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGstatement_class$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -4378,7 +4378,7 @@ export function parse(
                                                                     const children = pm.createStack($.children)
                                                                     const sequenceEnd = ($: api.TVTGstatement_class$_heritageClause$$) => {
                                                                         callback({
-                                                                            annotation: node.details,
+                                                                            tokenDetails: node.details,
                                                                             content: $,
                                                                         })
                                                                     }
@@ -4493,7 +4493,7 @@ export function parse(
                                                     )
                                                     pl.cc(elements.getArray(), ($) => {
                                                         callback({
-                                                            annotation: node.details,
+                                                            tokenDetails: node.details,
                                                             content: $,
                                                         })
                                                     })
@@ -4652,7 +4652,7 @@ export function parse(
                                 )
                                 pl.cc(optional, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -4801,7 +4801,7 @@ export function parse(
                     const children = pm.createStack($.children)
                     const sequenceEnd = ($: api.TVTGparameter$) => {
                         callback({
-                            annotation: node.details,
+                            tokenDetails: node.details,
                             content: $,
                         })
                     }
@@ -4983,7 +4983,7 @@ export function parse(
                     const node = $
                     const children = pm.createStack($.children)
                     callback({
-                        annotation: $.details,
+                        tokenDetails: $.details,
                         value: $.value
                     })
                     children.pop(
@@ -5254,7 +5254,7 @@ export function parse(
                     const node = $
                     const children = pm.createStack($.children)
                     callback({
-                        annotation: $.details,
+                        tokenDetails: $.details,
                         value: $.value
                     })
                     children.pop(
@@ -5306,7 +5306,7 @@ export function parse(
                     const children = pm.createStack($.children)
                     const sequenceEnd = ($: api.TVTGgetAccessor$) => {
                         callback({
-                            annotation: node.details,
+                            tokenDetails: node.details,
                             content: $,
                         })
                     }
@@ -5537,7 +5537,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGexpression_template$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -5558,7 +5558,7 @@ export function parse(
                                             const node = $
                                             const children = pm.createStack($.children)
                                             callback({
-                                                annotation: $.details,
+                                                tokenDetails: $.details,
                                                 value: $.value
                                             })
                                             children.pop(
@@ -5595,7 +5595,7 @@ export function parse(
                                                                 const children = pm.createStack($.children)
                                                                 const sequenceEnd = ($: api.TVTGexpression_template$_spans$) => {
                                                                     callback({
-                                                                        annotation: node.details,
+                                                                        tokenDetails: node.details,
                                                                         content: $,
                                                                     })
                                                                 }
@@ -5628,7 +5628,7 @@ export function parse(
                                                                                             const node = $
                                                                                             const children = pm.createStack($.children)
                                                                                             callback({
-                                                                                                annotation: $.details,
+                                                                                                tokenDetails: $.details,
                                                                                                 value: $.value
                                                                                             })
                                                                                             children.pop(
@@ -5675,7 +5675,7 @@ export function parse(
                                                                                             const node = $
                                                                                             const children = pm.createStack($.children)
                                                                                             callback({
-                                                                                                annotation: $.details,
+                                                                                                tokenDetails: $.details,
                                                                                                 value: $.value
                                                                                             })
                                                                                             children.pop(
@@ -5836,7 +5836,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGexpression_propertyAccess$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -5895,7 +5895,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -5944,7 +5944,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -5993,7 +5993,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -6066,7 +6066,7 @@ export function parse(
                                                             const children = pm.createStack($.children)
                                                             const sequenceEnd = ($: api.TVTGexpression_objectLiteral$_propertyAssignment$) => {
                                                                 callback({
-                                                                    annotation: node.details,
+                                                                    tokenDetails: node.details,
                                                                     content: $,
                                                                 })
                                                             }
@@ -6201,7 +6201,7 @@ export function parse(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -6343,7 +6343,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGexpression_new$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -6525,7 +6525,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGexpression_elementAccess$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -6584,7 +6584,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGexpression_conditional$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -6733,7 +6733,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGexpression_call$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -6932,7 +6932,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGexpression_binary$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -7543,7 +7543,7 @@ export function parse(
                                 const children = pm.createStack($.children)
                                 const sequenceEnd = ($: api.TVTGexpression_arrowFunction$) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 }
@@ -7915,7 +7915,7 @@ export function parse(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.details,
+                                        tokenDetails: node.details,
                                         content: $,
                                     })
                                 })
@@ -8135,7 +8135,7 @@ export function parse(
                     )
                     pl.cc(elements.getArray(), ($) => {
                         callback({
-                            annotation: node.details,
+                            tokenDetails: node.details,
                             content: $,
                         })
                     })
@@ -8181,7 +8181,7 @@ export function parse(
             const children = pm.createStack($.children)
             const sequenceEnd = ($: api.TVTroot) => {
                 callback({
-                    annotation: node.details,
+                    tokenDetails: node.details,
                     content: $,
                 })
             }
