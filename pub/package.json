@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "api-dynamic-typescript-parser": "^0.4.0",
-    "api-pareto-ugly-stuff": "^0.3.0",
-    "pareto-core-lib": "^0.7.0",
+    "api-dynamic-typescript-parser": "^0.6.2",
+    "api-pareto-ugly-stuff": "^0.3.1",
+    "pareto-core-lib": "^0.8.0",
     "pareto-core-state": "^0.6.0"
   },
   "name": "lib-typesafe-typescript-ast",
@@ -28,6 +28,6 @@
   "files": [
     "dist"
   ],
-  "interface-fingerprint": "2ebe717b35b77fc194189862185311ed905c3a87",
-  "content-fingerprint": "00a24d71758645ca07fa362bd8d83f2ab8bfb98f"
+  "interface-fingerprint": "f5f3964d09efb42edb16dbda63635f5ec205c4ca",
+  "content-fingerprint": "6cccd570040eecc8ce7a6f0023e97dd770378f9d"
 }

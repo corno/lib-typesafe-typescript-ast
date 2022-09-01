@@ -9,6 +9,7 @@ export const parse: api.Parse = ($, $i, $d) => {
             tsconfigPath: $.tsConfigPath
         },
         {
+            onError: $i.onError,
             onFile: ($$) => {
                 const $ = $$.data
                 const key = $$.path
@@ -19,7 +20,7 @@ export const parse: api.Parse = ($, $i, $d) => {
                         reportMissingToken: ($) => {
                             $i.reportMissingToken(
                                 {
-                                    parentAnnotation: $.parentAnnotation,
+                                    parentDetails: $.parentDetails,
                                     path: $.path,
                                     kindNameOptions: $.kindNameOptions
                                 }
@@ -30,7 +31,7 @@ export const parse: api.Parse = ($, $i, $d) => {
                             $i.reportUnexpectedToken(
                                 {
                                     path: $.path,
-                                    token: $.token.implementationDetails,
+                                    token: $.token.details,
                                     expected: $.expected,
                                 }
                             )
@@ -46,6 +47,7 @@ export const parse: api.Parse = ($, $i, $d) => {
                     {
                         doUntil: $d.doUntil,
                         lookAhead: $d.lookAhead,
+                        stringsNotEqual: $d.stringsNotEqual,
                     }
                 )
             },

@@ -1,29 +1,30 @@
 import * as pl from "pareto-core-lib"
 import * as pm from "pareto-core-state"
 import * as uast from "api-untyped-ast"
-import * as api from "../../interface/generated"
+import * as api from "../../interface"
 
-export function parse<Annotation>(
-    $: uast.TUntypedNode<Annotation>,
+export function parse(
+    $: uast.TUntypedNode,
     $i: {
-        callback: ($: api.TRoot<Annotation>) => void,
-        reportUnexpectedToken: ($: { path: string, token: uast.TUntypedNode<Annotation>, expected: null | string }) => void,
-        reportMissingToken: ($: { parentAnnotation: Annotation, path: string, kindNameOptions: string, }) => void,
+        callback: ($: api.TRoot) => void,
+        reportUnexpectedToken: ($: { path: string, token: uast.TUntypedNode, expected: null | string }) => void,
+        reportMissingToken: ($: { parentDetails: uast.TDetails, path: string, kindNameOptions: string, }) => void,
     },
     $d: {
         doUntil: <T>(stack: pm.Stack<T>, callback: ($: T) => boolean) => void,
         lookAhead: <T>(stack: pm.Stack<T>, exists: ($: T) => void, notExists: () => void) => void,
+        stringsNotEqual: (a: string, b: string) => boolean,
     },
 ): void {
     const $x = $i
     function GvariableDeclarationList(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGvariableDeclarationList<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGvariableDeclarationList) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "VariableDeclarationList") {
+                if ($d.stringsNotEqual(currentChild.kindName, "VariableDeclarationList")) {
                     $x.reportUnexpectedToken({
                         path: "GvariableDeclarationList",
                         token: currentChild,
@@ -32,12 +33,12 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGvariableDeclarationList$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGvariableDeclarationList$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
-                    const elements = pm.createArrayBuilder<api.TVTGvariableDeclarationList$<Annotation>>()
+                    const elements = pm.createArrayBuilder<api.TVTGvariableDeclarationList$>()
                     const processElement = () => {
                         GvariableDeclaration(node, children, ($) => {
                             elements.push($)
@@ -56,7 +57,7 @@ export function parse<Annotation>(
                     )
                     pl.cc(elements.getArray(), ($) => {
                         callback({
-                            annotation: node.implementationDetails,
+                            annotation: node.details,
                             content: $,
                         })
                     })
@@ -79,7 +80,7 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "GvariableDeclarationList",
                     kindNameOptions: "VariableDeclarationList",
                 })
@@ -87,13 +88,13 @@ export function parse<Annotation>(
         )
     }
     function GvariableDeclaration(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGvariableDeclaration<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGvariableDeclaration) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "VariableDeclaration") {
+                if ($d.stringsNotEqual(currentChild.kindName, "VariableDeclaration")) {
                     $x.reportUnexpectedToken({
                         path: "GvariableDeclaration",
                         token: currentChild,
@@ -102,20 +103,20 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGvariableDeclaration$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGvariableDeclaration$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
-                    const sequenceEnd = ($: api.TVTGvariableDeclaration$<Annotation>) => {
+                    const sequenceEnd = ($: api.TVTGvariableDeclaration$) => {
                         callback({
-                            annotation: node.implementationDetails,
+                            annotation: node.details,
                             content: $,
                         })
                     }
-                    const choiceEnd_GvariableDeclaration$_nameOrArrayBinding = ($: api.TVTGvariableDeclaration$_nameOrArrayBinding<Annotation>) => {
+                    const choiceEnd_GvariableDeclaration$_nameOrArrayBinding = ($: api.TVTGvariableDeclaration$_nameOrArrayBinding) => {
                         const _nameOrArrayBinding = $
-                        let optional: null | api.TVTGvariableDeclaration$_type<Annotation> = null
+                        let optional: null | api.TVTGvariableDeclaration$_type = null
                         const setOptional = () => {
                             Gtype(node, children, ($) => {
                                 optional = $
@@ -178,7 +179,7 @@ export function parse<Annotation>(
                         )
                         pl.cc(optional, ($) => {
                             const _type = $
-                            let optional: null | api.TVTGvariableDeclaration$_expression<Annotation> = null
+                            let optional: null | api.TVTGvariableDeclaration$_expression = null
                             const setOptional = () => {
                                 Gexpression(node, children, ($) => {
                                     optional = $
@@ -266,7 +267,7 @@ export function parse<Annotation>(
                             const choose_arrayBindingPattern = () => {
                                 children.pop(
                                     (currentChild) => {
-                                        if (currentChild.kindName !== "ArrayBindingPattern") {
+                                        if ($d.stringsNotEqual(currentChild.kindName, "ArrayBindingPattern")) {
                                             $x.reportUnexpectedToken({
                                                 path: "GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern",
                                                 token: currentChild,
@@ -275,14 +276,14 @@ export function parse<Annotation>(
                                             return
                                         }
                                         ((
-                                            $: uast.TUntypedNode<Annotation>,
-                                            callback: ($: api.TNGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$<Annotation>) => void,
+                                            $: uast.TUntypedNode,
+                                            callback: ($: api.TNGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$) => void,
                                         ): void => {
                                             const node = $
                                             const children = pm.createStack($.children)
-                                            const elements = pm.createArrayBuilder<api.TVTGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$<Annotation>>()
+                                            const elements = pm.createArrayBuilder<api.TVTGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$>()
                                             const processElement = () => {
-                                                const choiceEnd_GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$ = ($: api.TVTGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$<Annotation>) => {
+                                                const choiceEnd_GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$ = ($: api.TVTGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$) => {
                                                     elements.push($)
                                                 }
                                                 $d.lookAhead(children, 
@@ -290,7 +291,7 @@ export function parse<Annotation>(
                                                         const choose_bindingElement = () => {
                                                             children.pop(
                                                                 (currentChild) => {
-                                                                    if (currentChild.kindName !== "BindingElement") {
+                                                                    if ($d.stringsNotEqual(currentChild.kindName, "BindingElement")) {
                                                                         $x.reportUnexpectedToken({
                                                                             path: "GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$_bindingElement",
                                                                             token: currentChild,
@@ -299,14 +300,14 @@ export function parse<Annotation>(
                                                                         return
                                                                     }
                                                                     ((
-                                                                        $: uast.TUntypedNode<Annotation>,
-                                                                        callback: ($: api.TNGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$_bindingElement$<Annotation>) => void,
+                                                                        $: uast.TUntypedNode,
+                                                                        callback: ($: api.TNGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$_bindingElement$) => void,
                                                                     ): void => {
                                                                         const node = $
                                                                         const children = pm.createStack($.children)
                                                                         Gidentifier(node, children, ($) => {
                                                                             callback({
-                                                                                annotation: node.implementationDetails,
+                                                                                annotation: node.details,
                                                                                 content: $,
                                                                             })
                                                                         })
@@ -329,7 +330,7 @@ export function parse<Annotation>(
                                                                 },
                                                                 () => { // no child
                                                                     $x.reportMissingToken({
-                                                                        parentAnnotation: node.implementationDetails,
+                                                                        parentDetails: node.details,
                                                                         path: "GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$_bindingElement",
                                                                         kindNameOptions: "BindingElement",
                                                                     })
@@ -339,7 +340,7 @@ export function parse<Annotation>(
                                                         const choose_omitted = () => {
                                                             children.pop(
                                                                 (currentChild) => {
-                                                                    if (currentChild.kindName !== "OmittedExpression") {
+                                                                    if ($d.stringsNotEqual(currentChild.kindName, "OmittedExpression")) {
                                                                         $x.reportUnexpectedToken({
                                                                             path: "GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$_omitted",
                                                                             token: currentChild,
@@ -348,12 +349,12 @@ export function parse<Annotation>(
                                                                         return
                                                                     }
                                                                     ((
-                                                                        $: uast.TUntypedNode<Annotation>,
-                                                                        callback: ($: api.TNGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$_omitted$<Annotation>) => void,
+                                                                        $: uast.TUntypedNode,
+                                                                        callback: ($: api.TNGvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$_omitted$) => void,
                                                                     ): void => {
                                                                         const node = $
                                                                         const children = pm.createStack($.children)
-                                                                        callback($.implementationDetails)
+                                                                        callback($.details)
                                                                         children.pop(
                                                                             (nextChild) => {
                                                                                 $x.reportUnexpectedToken({
@@ -373,7 +374,7 @@ export function parse<Annotation>(
                                                                 },
                                                                 () => { // no child
                                                                     $x.reportMissingToken({
-                                                                        parentAnnotation: node.implementationDetails,
+                                                                        parentDetails: node.details,
                                                                         path: "GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$_omitted",
                                                                         kindNameOptions: "OmittedExpression",
                                                                     })
@@ -400,7 +401,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { //no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern$",
                                                             kindNameOptions: "OmittedExpression, BindingElement",
                                                         })
@@ -423,7 +424,7 @@ export function parse<Annotation>(
                                             )
                                             pl.cc(elements.getArray(), ($) => {
                                                 callback({
-                                                    annotation: node.implementationDetails,
+                                                    annotation: node.details,
                                                     content: $,
                                                 })
                                             })
@@ -446,7 +447,7 @@ export function parse<Annotation>(
                                     },
                                     () => { // no child
                                         $x.reportMissingToken({
-                                            parentAnnotation: node.implementationDetails,
+                                            parentDetails: node.details,
                                             path: "GvariableDeclaration$_nameOrArrayBinding_arrayBindingPattern",
                                             kindNameOptions: "ArrayBindingPattern",
                                         })
@@ -478,7 +479,7 @@ export function parse<Annotation>(
                         },
                         () => { //no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "GvariableDeclaration$_nameOrArrayBinding",
                                 kindNameOptions: "Identifier, ArrayBindingPattern",
                             })
@@ -503,7 +504,7 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "GvariableDeclaration",
                     kindNameOptions: "VariableDeclaration",
                 })
@@ -511,11 +512,11 @@ export function parse<Annotation>(
         )
     }
     function GtypeSignature(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGtypeSignature<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGtypeSignature) => void,
     ): void {
-        const choiceEnd_GtypeSignature = ($: api.TVTGtypeSignature<Annotation>) => {
+        const choiceEnd_GtypeSignature = ($: api.TVTGtypeSignature) => {
             callback($)
         }
         $d.lookAhead(children, 
@@ -523,7 +524,7 @@ export function parse<Annotation>(
                 const choose_property = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "PropertySignature") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "PropertySignature")) {
                                 $x.reportUnexpectedToken({
                                     path: "GtypeSignature_property",
                                     token: currentChild,
@@ -532,18 +533,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtypeSignature_property$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtypeSignature_property$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGtypeSignature_property$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGtypeSignature_property$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGtypeSignature_property$_modifiers<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGtypeSignature_property$_modifiers>()
                                 const processElement = () => {
                                     Gmodifier(node, children, ($) => {
                                         elements.push($)
@@ -570,11 +571,11 @@ export function parse<Annotation>(
                                     const _modifiers = $
                                     GidentifierOrStringLiteral(node, children, ($) => {
                                         const _name = $
-                                        let optional: null | api.TVTGtypeSignature_property$_quesionToken<Annotation> = null
+                                        let optional: null | api.TVTGtypeSignature_property$_quesionToken = null
                                         const setOptional = () => {
                                             children.pop(
                                                 (currentChild) => {
-                                                    if (currentChild.kindName !== "QuestionToken") {
+                                                    if ($d.stringsNotEqual(currentChild.kindName, "QuestionToken")) {
                                                         $x.reportUnexpectedToken({
                                                             path: "GtypeSignature_property$_quesionToken",
                                                             token: currentChild,
@@ -583,12 +584,12 @@ export function parse<Annotation>(
                                                         return
                                                     }
                                                     ((
-                                                        $: uast.TUntypedNode<Annotation>,
-                                                        callback: ($: api.TNGtypeSignature_property$_quesionToken$<Annotation>) => void,
+                                                        $: uast.TUntypedNode,
+                                                        callback: ($: api.TNGtypeSignature_property$_quesionToken$) => void,
                                                     ): void => {
                                                         const node = $
                                                         const children = pm.createStack($.children)
-                                                        callback($.implementationDetails)
+                                                        callback($.details)
                                                         children.pop(
                                                             (nextChild) => {
                                                                 $x.reportUnexpectedToken({
@@ -608,7 +609,7 @@ export function parse<Annotation>(
                                                 },
                                                 () => { // no child
                                                     $x.reportMissingToken({
-                                                        parentAnnotation: node.implementationDetails,
+                                                        parentDetails: node.details,
                                                         path: "GtypeSignature_property$_quesionToken",
                                                         kindNameOptions: "QuestionToken",
                                                     })
@@ -627,7 +628,7 @@ export function parse<Annotation>(
                                         )
                                         pl.cc(optional, ($) => {
                                             const _quesionToken = $
-                                            let optional: null | api.TVTGtypeSignature_property$_type<Annotation> = null
+                                            let optional: null | api.TVTGtypeSignature_property$_type = null
                                             const setOptional = () => {
                                                 Gtype(node, children, ($) => {
                                                     optional = $
@@ -719,7 +720,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "GtypeSignature_property",
                                 kindNameOptions: "PropertySignature",
                             })
@@ -729,7 +730,7 @@ export function parse<Annotation>(
                 const choose_method = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "MethodSignature") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "MethodSignature")) {
                                 $x.reportUnexpectedToken({
                                     path: "GtypeSignature_method",
                                     token: currentChild,
@@ -738,14 +739,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtypeSignature_method$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtypeSignature_method$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGtypeSignature_method$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGtypeSignature_method$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -778,7 +779,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "GtypeSignature_method",
                                 kindNameOptions: "MethodSignature",
                             })
@@ -788,7 +789,7 @@ export function parse<Annotation>(
                 const choose_index = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "IndexSignature") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "IndexSignature")) {
                                 $x.reportUnexpectedToken({
                                     path: "GtypeSignature_index",
                                     token: currentChild,
@@ -797,18 +798,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtypeSignature_index$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtypeSignature_index$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGtypeSignature_index$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGtypeSignature_index$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGtypeSignature_index$_modifiers<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGtypeSignature_index$_modifiers>()
                                 const processElement = () => {
                                     Gmodifier(node, children, ($) => {
                                         elements.push($)
@@ -835,7 +836,7 @@ export function parse<Annotation>(
                                     const _modifiers = $
                                     Gparameter(node, children, ($) => {
                                         const _parameter = $
-                                        let optional: null | api.TVTGtypeSignature_index$_type<Annotation> = null
+                                        let optional: null | api.TVTGtypeSignature_index$_type = null
                                         const setOptional = () => {
                                             Gtype(node, children, ($) => {
                                                 optional = $
@@ -925,7 +926,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "GtypeSignature_index",
                                 kindNameOptions: "IndexSignature",
                             })
@@ -935,7 +936,7 @@ export function parse<Annotation>(
                 const choose_construct = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ConstructSignature") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ConstructSignature")) {
                                 $x.reportUnexpectedToken({
                                     path: "GtypeSignature_construct",
                                     token: currentChild,
@@ -944,18 +945,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtypeSignature_construct$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtypeSignature_construct$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGtypeSignature_construct$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGtypeSignature_construct$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGtypeSignature_construct$_parameters<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGtypeSignature_construct$_parameters>()
                                 const processElement = () => {
                                     Gparameter(node, children, ($) => {
                                         elements.push($)
@@ -1001,7 +1002,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "GtypeSignature_construct",
                                 kindNameOptions: "ConstructSignature",
                             })
@@ -1036,7 +1037,7 @@ export function parse<Annotation>(
             },
             () => { //no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "GtypeSignature",
                     kindNameOptions: "ConstructSignature, IndexSignature, MethodSignature, PropertySignature",
                 })
@@ -1044,13 +1045,13 @@ export function parse<Annotation>(
         )
     }
     function GtypeParameter(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGtypeParameter<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGtypeParameter) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "TypeParameter") {
+                if ($d.stringsNotEqual(currentChild.kindName, "TypeParameter")) {
                     $x.reportUnexpectedToken({
                         path: "GtypeParameter",
                         token: currentChild,
@@ -1059,14 +1060,14 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGtypeParameter$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGtypeParameter$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
                     Gidentifier(node, children, ($) => {
                         callback({
-                            annotation: node.implementationDetails,
+                            annotation: node.details,
                             content: $,
                         })
                     })
@@ -1089,7 +1090,7 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "GtypeParameter",
                     kindNameOptions: "TypeParameter",
                 })
@@ -1097,11 +1098,11 @@ export function parse<Annotation>(
         )
     }
     function Gtype(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGtype<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGtype) => void,
     ): void {
-        const choiceEnd_Gtype = ($: api.TVTGtype<Annotation>) => {
+        const choiceEnd_Gtype = ($: api.TVTGtype) => {
             callback($)
         }
         $d.lookAhead(children, 
@@ -1109,7 +1110,7 @@ export function parse<Annotation>(
                 const choose_void = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "VoidKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "VoidKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_void",
                                     token: currentChild,
@@ -1118,12 +1119,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_void$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_void$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -1143,7 +1144,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_void",
                                 kindNameOptions: "VoidKeyword",
                             })
@@ -1153,7 +1154,7 @@ export function parse<Annotation>(
                 const choose_union = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "UnionType") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "UnionType")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_union",
                                     token: currentChild,
@@ -1162,12 +1163,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_union$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_union$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const elements = pm.createArrayBuilder<api.TVTGtype_union$<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGtype_union$>()
                                 const processElement = () => {
                                     Gtype(node, children, ($) => {
                                         elements.push($)
@@ -1231,7 +1232,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -1254,7 +1255,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_union",
                                 kindNameOptions: "UnionType",
                             })
@@ -1264,7 +1265,7 @@ export function parse<Annotation>(
                 const choose_undefined = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "UndefinedKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "UndefinedKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_undefined",
                                     token: currentChild,
@@ -1273,12 +1274,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_undefined$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_undefined$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -1298,7 +1299,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_undefined",
                                 kindNameOptions: "UndefinedKeyword",
                             })
@@ -1308,7 +1309,7 @@ export function parse<Annotation>(
                 const choose_typeReference = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "TypeReference") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "TypeReference")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_typeReference",
                                     token: currentChild,
@@ -1317,20 +1318,20 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_typeReference$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_typeReference$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGtype_typeReference$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGtype_typeReference$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const choiceEnd_Gtype_typeReference$_x = ($: api.TVTGtype_typeReference$_x<Annotation>) => {
+                                const choiceEnd_Gtype_typeReference$_x = ($: api.TVTGtype_typeReference$_x) => {
                                     const _x = $
-                                    const elements = pm.createArrayBuilder<api.TVTGtype_typeReference$_parameters<Annotation>>()
+                                    const elements = pm.createArrayBuilder<api.TVTGtype_typeReference$_parameters>()
                                     const processElement = () => {
                                         Gtype(node, children, ($) => {
                                             elements.push($)
@@ -1405,7 +1406,7 @@ export function parse<Annotation>(
                                         const choose_qualifiedName = () => {
                                             children.pop(
                                                 (currentChild) => {
-                                                    if (currentChild.kindName !== "QualifiedName") {
+                                                    if ($d.stringsNotEqual(currentChild.kindName, "QualifiedName")) {
                                                         $x.reportUnexpectedToken({
                                                             path: "Gtype_typeReference$_x_qualifiedName",
                                                             token: currentChild,
@@ -1414,14 +1415,14 @@ export function parse<Annotation>(
                                                         return
                                                     }
                                                     ((
-                                                        $: uast.TUntypedNode<Annotation>,
-                                                        callback: ($: api.TNGtype_typeReference$_x_qualifiedName$<Annotation>) => void,
+                                                        $: uast.TUntypedNode,
+                                                        callback: ($: api.TNGtype_typeReference$_x_qualifiedName$) => void,
                                                     ): void => {
                                                         const node = $
                                                         const children = pm.createStack($.children)
-                                                        const sequenceEnd = ($: api.TVTGtype_typeReference$_x_qualifiedName$<Annotation>) => {
+                                                        const sequenceEnd = ($: api.TVTGtype_typeReference$_x_qualifiedName$) => {
                                                             callback({
-                                                                annotation: node.implementationDetails,
+                                                                annotation: node.details,
                                                                 content: $,
                                                             })
                                                         }
@@ -1454,7 +1455,7 @@ export function parse<Annotation>(
                                                 },
                                                 () => { // no child
                                                     $x.reportMissingToken({
-                                                        parentAnnotation: node.implementationDetails,
+                                                        parentDetails: node.details,
                                                         path: "Gtype_typeReference$_x_qualifiedName",
                                                         kindNameOptions: "QualifiedName",
                                                     })
@@ -1486,7 +1487,7 @@ export function parse<Annotation>(
                                     },
                                     () => { //no child
                                         $x.reportMissingToken({
-                                            parentAnnotation: node.implementationDetails,
+                                            parentDetails: node.details,
                                             path: "Gtype_typeReference$_x",
                                             kindNameOptions: "Identifier, QualifiedName",
                                         })
@@ -1511,7 +1512,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_typeReference",
                                 kindNameOptions: "TypeReference",
                             })
@@ -1521,7 +1522,7 @@ export function parse<Annotation>(
                 const choose_string = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "StringKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "StringKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_string",
                                     token: currentChild,
@@ -1530,12 +1531,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_string$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_string$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -1555,7 +1556,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_string",
                                 kindNameOptions: "StringKeyword",
                             })
@@ -1565,7 +1566,7 @@ export function parse<Annotation>(
                 const choose_typeLiteral = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "TypeLiteral") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "TypeLiteral")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_typeLiteral",
                                     token: currentChild,
@@ -1574,12 +1575,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_typeLiteral$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_typeLiteral$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const elements = pm.createArrayBuilder<api.TVTGtype_typeLiteral$<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGtype_typeLiteral$>()
                                 const processElement = () => {
                                     GtypeSignature(node, children, ($) => {
                                         elements.push($)
@@ -1607,7 +1608,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -1630,7 +1631,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_typeLiteral",
                                 kindNameOptions: "TypeLiteral",
                             })
@@ -1640,7 +1641,7 @@ export function parse<Annotation>(
                 const choose_tuple = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "TupleType") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "TupleType")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_tuple",
                                     token: currentChild,
@@ -1649,12 +1650,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_tuple$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_tuple$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const elements = pm.createArrayBuilder<api.TVTGtype_tuple$<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGtype_tuple$>()
                                 const processElement = () => {
                                     Gtype(node, children, ($) => {
                                         elements.push($)
@@ -1718,7 +1719,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -1741,7 +1742,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_tuple",
                                 kindNameOptions: "TupleType",
                             })
@@ -1751,7 +1752,7 @@ export function parse<Annotation>(
                 const choose_optional = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "OptionalType") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "OptionalType")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_optional",
                                     token: currentChild,
@@ -1760,14 +1761,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_optional$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_optional$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 Gtype(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -1790,7 +1791,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_optional",
                                 kindNameOptions: "OptionalType",
                             })
@@ -1800,7 +1801,7 @@ export function parse<Annotation>(
                 const choose_number = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "NumberKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "NumberKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_number",
                                     token: currentChild,
@@ -1809,12 +1810,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_number$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_number$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -1834,7 +1835,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_number",
                                 kindNameOptions: "NumberKeyword",
                             })
@@ -1844,7 +1845,7 @@ export function parse<Annotation>(
                 const choose_never = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "NeverKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "NeverKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_never",
                                     token: currentChild,
@@ -1853,12 +1854,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_never$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_never$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -1878,7 +1879,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_never",
                                 kindNameOptions: "NeverKeyword",
                             })
@@ -1888,7 +1889,7 @@ export function parse<Annotation>(
                 const choose_parenthesized = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ParenthesizedType") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ParenthesizedType")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_parenthesized",
                                     token: currentChild,
@@ -1897,14 +1898,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_parenthesized$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_parenthesized$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 Gtype(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -1927,7 +1928,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_parenthesized",
                                 kindNameOptions: "ParenthesizedType",
                             })
@@ -1937,7 +1938,7 @@ export function parse<Annotation>(
                 const choose_literal = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "LiteralType") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "LiteralType")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_literal",
                                     token: currentChild,
@@ -1946,14 +1947,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_literal$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_literal$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const choiceEnd_Gtype_literal$ = ($: api.TVTGtype_literal$<Annotation>) => {
+                                const choiceEnd_Gtype_literal$ = ($: api.TVTGtype_literal$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -1967,7 +1968,7 @@ export function parse<Annotation>(
                                         const choose_null = () => {
                                             children.pop(
                                                 (currentChild) => {
-                                                    if (currentChild.kindName !== "NullKeyword") {
+                                                    if ($d.stringsNotEqual(currentChild.kindName, "NullKeyword")) {
                                                         $x.reportUnexpectedToken({
                                                             path: "Gtype_literal$_null",
                                                             token: currentChild,
@@ -1976,12 +1977,12 @@ export function parse<Annotation>(
                                                         return
                                                     }
                                                     ((
-                                                        $: uast.TUntypedNode<Annotation>,
-                                                        callback: ($: api.TNGtype_literal$_null$<Annotation>) => void,
+                                                        $: uast.TUntypedNode,
+                                                        callback: ($: api.TNGtype_literal$_null$) => void,
                                                     ): void => {
                                                         const node = $
                                                         const children = pm.createStack($.children)
-                                                        callback($.implementationDetails)
+                                                        callback($.details)
                                                         children.pop(
                                                             (nextChild) => {
                                                                 $x.reportUnexpectedToken({
@@ -2001,7 +2002,7 @@ export function parse<Annotation>(
                                                 },
                                                 () => { // no child
                                                     $x.reportMissingToken({
-                                                        parentAnnotation: node.implementationDetails,
+                                                        parentDetails: node.details,
                                                         path: "Gtype_literal$_null",
                                                         kindNameOptions: "NullKeyword",
                                                     })
@@ -2028,7 +2029,7 @@ export function parse<Annotation>(
                                     },
                                     () => { //no child
                                         $x.reportMissingToken({
-                                            parentAnnotation: node.implementationDetails,
+                                            parentDetails: node.details,
                                             path: "Gtype_literal$",
                                             kindNameOptions: "NullKeyword, StringLiteral",
                                         })
@@ -2053,7 +2054,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_literal",
                                 kindNameOptions: "LiteralType",
                             })
@@ -2063,7 +2064,7 @@ export function parse<Annotation>(
                 const choose_function = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "FunctionType") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "FunctionType")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_function",
                                     token: currentChild,
@@ -2072,18 +2073,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_function$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_function$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGtype_function$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGtype_function$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGtype_function$_parameters<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGtype_function$_parameters>()
                                 const processElement = () => {
                                     Gparameter(node, children, ($) => {
                                         elements.push($)
@@ -2102,7 +2103,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     const _parameters = $
-                                    let optional: null | api.TVTGtype_function$_returnType<Annotation> = null
+                                    let optional: null | api.TVTGtype_function$_returnType = null
                                     const setOptional = () => {
                                         Gtype(node, children, ($) => {
                                             optional = $
@@ -2190,7 +2191,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_function",
                                 kindNameOptions: "FunctionType",
                             })
@@ -2200,7 +2201,7 @@ export function parse<Annotation>(
                 const choose_boolean = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "BooleanKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "BooleanKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_boolean",
                                     token: currentChild,
@@ -2209,12 +2210,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_boolean$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_boolean$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -2234,7 +2235,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_boolean",
                                 kindNameOptions: "BooleanKeyword",
                             })
@@ -2244,7 +2245,7 @@ export function parse<Annotation>(
                 const choose_array = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ArrayType") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ArrayType")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_array",
                                     token: currentChild,
@@ -2253,14 +2254,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_array$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_array$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 Gtype(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -2283,7 +2284,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_array",
                                 kindNameOptions: "ArrayType",
                             })
@@ -2293,7 +2294,7 @@ export function parse<Annotation>(
                 const choose_any = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "AnyKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "AnyKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gtype_any",
                                     token: currentChild,
@@ -2302,12 +2303,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGtype_any$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGtype_any$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -2327,7 +2328,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gtype_any",
                                 kindNameOptions: "AnyKeyword",
                             })
@@ -2410,7 +2411,7 @@ export function parse<Annotation>(
             },
             () => { //no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "Gtype",
                     kindNameOptions: "AnyKeyword, ArrayType, BooleanKeyword, FunctionType, LiteralType, ParenthesizedType, NeverKeyword, NumberKeyword, OptionalType, TupleType, TypeLiteral, StringKeyword, TypeReference, UndefinedKeyword, UnionType, VoidKeyword",
                 })
@@ -2418,13 +2419,13 @@ export function parse<Annotation>(
         )
     }
     function GstringLiteral(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGstringLiteral<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGstringLiteral) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "StringLiteral") {
+                if ($d.stringsNotEqual(currentChild.kindName, "StringLiteral")) {
                     $x.reportUnexpectedToken({
                         path: "GstringLiteral",
                         token: currentChild,
@@ -2433,13 +2434,13 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGstringLiteral$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGstringLiteral$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
                     callback({
-                        annotation: $.implementationDetails,
+                        annotation: $.details,
                         value: $.value
                     })
                     children.pop(
@@ -2461,7 +2462,7 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "GstringLiteral",
                     kindNameOptions: "StringLiteral",
                 })
@@ -2469,11 +2470,11 @@ export function parse<Annotation>(
         )
     }
     function Gstatement(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGstatement<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGstatement) => void,
     ): void {
-        const choiceEnd_Gstatement = ($: api.TVTGstatement<Annotation>) => {
+        const choiceEnd_Gstatement = ($: api.TVTGstatement) => {
             callback($)
         }
         $d.lookAhead(children, 
@@ -2481,7 +2482,7 @@ export function parse<Annotation>(
                 const choose_while = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "WhileStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "WhileStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_while",
                                     token: currentChild,
@@ -2490,14 +2491,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_while$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_while$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_while$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_while$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -2530,7 +2531,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_while",
                                 kindNameOptions: "WhileStatement",
                             })
@@ -2540,7 +2541,7 @@ export function parse<Annotation>(
                 const choose_variable = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "VariableStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "VariableStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_variable",
                                     token: currentChild,
@@ -2549,18 +2550,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_variable$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_variable$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_variable$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_variable$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGstatement_variable$_modifiers<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGstatement_variable$_modifiers>()
                                 const processElement = () => {
                                     Gmodifier(node, children, ($) => {
                                         elements.push($)
@@ -2612,7 +2613,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_variable",
                                 kindNameOptions: "VariableStatement",
                             })
@@ -2622,7 +2623,7 @@ export function parse<Annotation>(
                 const choose_typeAlias = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "TypeAliasDeclaration") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "TypeAliasDeclaration")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_typeAlias",
                                     token: currentChild,
@@ -2631,18 +2632,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_typeAlias$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_typeAlias$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_typeAlias$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_typeAlias$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGstatement_typeAlias$_modifiers<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGstatement_typeAlias$_modifiers>()
                                 const processElement = () => {
                                     Gmodifier(node, children, ($) => {
                                         elements.push($)
@@ -2669,7 +2670,7 @@ export function parse<Annotation>(
                                     const _modifiers = $
                                     Gidentifier(node, children, ($) => {
                                         const _name = $
-                                        const elements = pm.createArrayBuilder<api.TVTGstatement_typeAlias$_typeParameters<Annotation>>()
+                                        const elements = pm.createArrayBuilder<api.TVTGstatement_typeAlias$_typeParameters>()
                                         const processElement = () => {
                                             GtypeParameter(node, children, ($) => {
                                                 elements.push($)
@@ -2719,7 +2720,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_typeAlias",
                                 kindNameOptions: "TypeAliasDeclaration",
                             })
@@ -2729,7 +2730,7 @@ export function parse<Annotation>(
                 const choose_try = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "TryStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "TryStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_try",
                                     token: currentChild,
@@ -2738,14 +2739,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_try$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_try$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_try$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_try$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -2753,7 +2754,7 @@ export function parse<Annotation>(
                                     const _block = $
                                     children.pop(
                                         (currentChild) => {
-                                            if (currentChild.kindName !== "CatchClause") {
+                                            if ($d.stringsNotEqual(currentChild.kindName, "CatchClause")) {
                                                 $x.reportUnexpectedToken({
                                                     path: "Gstatement_try$_catchClause",
                                                     token: currentChild,
@@ -2762,14 +2763,14 @@ export function parse<Annotation>(
                                                 return
                                             }
                                             ((
-                                                $: uast.TUntypedNode<Annotation>,
-                                                callback: ($: api.TNGstatement_try$_catchClause$<Annotation>) => void,
+                                                $: uast.TUntypedNode,
+                                                callback: ($: api.TNGstatement_try$_catchClause$) => void,
                                             ): void => {
                                                 const node = $
                                                 const children = pm.createStack($.children)
-                                                const sequenceEnd = ($: api.TVTGstatement_try$_catchClause$<Annotation>) => {
+                                                const sequenceEnd = ($: api.TVTGstatement_try$_catchClause$) => {
                                                     callback({
-                                                        annotation: node.implementationDetails,
+                                                        annotation: node.details,
                                                         content: $,
                                                     })
                                                 }
@@ -2806,7 +2807,7 @@ export function parse<Annotation>(
                                         },
                                         () => { // no child
                                             $x.reportMissingToken({
-                                                parentAnnotation: node.implementationDetails,
+                                                parentDetails: node.details,
                                                 path: "Gstatement_try$_catchClause",
                                                 kindNameOptions: "CatchClause",
                                             })
@@ -2832,7 +2833,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_try",
                                 kindNameOptions: "TryStatement",
                             })
@@ -2842,7 +2843,7 @@ export function parse<Annotation>(
                 const choose_throw = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ThrowStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ThrowStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_throw",
                                     token: currentChild,
@@ -2851,14 +2852,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_throw$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_throw$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -2881,7 +2882,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_throw",
                                 kindNameOptions: "ThrowStatement",
                             })
@@ -2891,7 +2892,7 @@ export function parse<Annotation>(
                 const choose_switch = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "SwitchStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "SwitchStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_switch",
                                     token: currentChild,
@@ -2900,14 +2901,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_switch$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_switch$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_switch$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_switch$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -2915,7 +2916,7 @@ export function parse<Annotation>(
                                     const _expression = $
                                     children.pop(
                                         (currentChild) => {
-                                            if (currentChild.kindName !== "CaseBlock") {
+                                            if ($d.stringsNotEqual(currentChild.kindName, "CaseBlock")) {
                                                 $x.reportUnexpectedToken({
                                                     path: "Gstatement_switch$_caseBlock",
                                                     token: currentChild,
@@ -2924,14 +2925,14 @@ export function parse<Annotation>(
                                                 return
                                             }
                                             ((
-                                                $: uast.TUntypedNode<Annotation>,
-                                                callback: ($: api.TNGstatement_switch$_caseBlock$<Annotation>) => void,
+                                                $: uast.TUntypedNode,
+                                                callback: ($: api.TNGstatement_switch$_caseBlock$) => void,
                                             ): void => {
                                                 const node = $
                                                 const children = pm.createStack($.children)
-                                                const elements = pm.createArrayBuilder<api.TVTGstatement_switch$_caseBlock$<Annotation>>()
+                                                const elements = pm.createArrayBuilder<api.TVTGstatement_switch$_caseBlock$>()
                                                 const processElement = () => {
-                                                    const choiceEnd_Gstatement_switch$_caseBlock$ = ($: api.TVTGstatement_switch$_caseBlock$<Annotation>) => {
+                                                    const choiceEnd_Gstatement_switch$_caseBlock$ = ($: api.TVTGstatement_switch$_caseBlock$) => {
                                                         elements.push($)
                                                     }
                                                     $d.lookAhead(children, 
@@ -2939,7 +2940,7 @@ export function parse<Annotation>(
                                                             const choose_default = () => {
                                                                 children.pop(
                                                                     (currentChild) => {
-                                                                        if (currentChild.kindName !== "DefaultClause") {
+                                                                        if ($d.stringsNotEqual(currentChild.kindName, "DefaultClause")) {
                                                                             $x.reportUnexpectedToken({
                                                                                 path: "Gstatement_switch$_caseBlock$_default",
                                                                                 token: currentChild,
@@ -2948,12 +2949,12 @@ export function parse<Annotation>(
                                                                             return
                                                                         }
                                                                         ((
-                                                                            $: uast.TUntypedNode<Annotation>,
-                                                                            callback: ($: api.TNGstatement_switch$_caseBlock$_default$<Annotation>) => void,
+                                                                            $: uast.TUntypedNode,
+                                                                            callback: ($: api.TNGstatement_switch$_caseBlock$_default$) => void,
                                                                         ): void => {
                                                                             const node = $
                                                                             const children = pm.createStack($.children)
-                                                                            const elements = pm.createArrayBuilder<api.TVTGstatement_switch$_caseBlock$_default$<Annotation>>()
+                                                                            const elements = pm.createArrayBuilder<api.TVTGstatement_switch$_caseBlock$_default$>()
                                                                             const processElement = () => {
                                                                                 Gstatement(node, children, ($) => {
                                                                                     elements.push($)
@@ -3023,7 +3024,7 @@ export function parse<Annotation>(
                                                                             )
                                                                             pl.cc(elements.getArray(), ($) => {
                                                                                 callback({
-                                                                                    annotation: node.implementationDetails,
+                                                                                    annotation: node.details,
                                                                                     content: $,
                                                                                 })
                                                                             })
@@ -3046,7 +3047,7 @@ export function parse<Annotation>(
                                                                     },
                                                                     () => { // no child
                                                                         $x.reportMissingToken({
-                                                                            parentAnnotation: node.implementationDetails,
+                                                                            parentDetails: node.details,
                                                                             path: "Gstatement_switch$_caseBlock$_default",
                                                                             kindNameOptions: "DefaultClause",
                                                                         })
@@ -3056,7 +3057,7 @@ export function parse<Annotation>(
                                                             const choose_case = () => {
                                                                 children.pop(
                                                                     (currentChild) => {
-                                                                        if (currentChild.kindName !== "CaseClause") {
+                                                                        if ($d.stringsNotEqual(currentChild.kindName, "CaseClause")) {
                                                                             $x.reportUnexpectedToken({
                                                                                 path: "Gstatement_switch$_caseBlock$_case",
                                                                                 token: currentChild,
@@ -3065,20 +3066,20 @@ export function parse<Annotation>(
                                                                             return
                                                                         }
                                                                         ((
-                                                                            $: uast.TUntypedNode<Annotation>,
-                                                                            callback: ($: api.TNGstatement_switch$_caseBlock$_case$<Annotation>) => void,
+                                                                            $: uast.TUntypedNode,
+                                                                            callback: ($: api.TNGstatement_switch$_caseBlock$_case$) => void,
                                                                         ): void => {
                                                                             const node = $
                                                                             const children = pm.createStack($.children)
-                                                                            const sequenceEnd = ($: api.TVTGstatement_switch$_caseBlock$_case$<Annotation>) => {
+                                                                            const sequenceEnd = ($: api.TVTGstatement_switch$_caseBlock$_case$) => {
                                                                                 callback({
-                                                                                    annotation: node.implementationDetails,
+                                                                                    annotation: node.details,
                                                                                     content: $,
                                                                                 })
                                                                             }
                                                                             Gexpression(node, children, ($) => {
                                                                                 const _case = $
-                                                                                const elements = pm.createArrayBuilder<api.TVTGstatement_switch$_caseBlock$_case$_statements<Annotation>>()
+                                                                                const elements = pm.createArrayBuilder<api.TVTGstatement_switch$_caseBlock$_case$_statements>()
                                                                                 const processElement = () => {
                                                                                     Gstatement(node, children, ($) => {
                                                                                         elements.push($)
@@ -3173,7 +3174,7 @@ export function parse<Annotation>(
                                                                     },
                                                                     () => { // no child
                                                                         $x.reportMissingToken({
-                                                                            parentAnnotation: node.implementationDetails,
+                                                                            parentDetails: node.details,
                                                                             path: "Gstatement_switch$_caseBlock$_case",
                                                                             kindNameOptions: "CaseClause",
                                                                         })
@@ -3200,7 +3201,7 @@ export function parse<Annotation>(
                                                         },
                                                         () => { //no child
                                                             $x.reportMissingToken({
-                                                                parentAnnotation: node.implementationDetails,
+                                                                parentDetails: node.details,
                                                                 path: "Gstatement_switch$_caseBlock$",
                                                                 kindNameOptions: "CaseClause, DefaultClause",
                                                             })
@@ -3223,7 +3224,7 @@ export function parse<Annotation>(
                                                 )
                                                 pl.cc(elements.getArray(), ($) => {
                                                     callback({
-                                                        annotation: node.implementationDetails,
+                                                        annotation: node.details,
                                                         content: $,
                                                     })
                                                 })
@@ -3250,7 +3251,7 @@ export function parse<Annotation>(
                                         },
                                         () => { // no child
                                             $x.reportMissingToken({
-                                                parentAnnotation: node.implementationDetails,
+                                                parentDetails: node.details,
                                                 path: "Gstatement_switch$_caseBlock",
                                                 kindNameOptions: "CaseBlock",
                                             })
@@ -3276,7 +3277,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_switch",
                                 kindNameOptions: "SwitchStatement",
                             })
@@ -3286,7 +3287,7 @@ export function parse<Annotation>(
                 const choose_return = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ReturnStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ReturnStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_return",
                                     token: currentChild,
@@ -3295,12 +3296,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_return$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_return$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                let optional: null | api.TVTGstatement_return$<Annotation> = null
+                                let optional: null | api.TVTGstatement_return$ = null
                                 const setOptional = () => {
                                     Gexpression(node, children, ($) => {
                                         optional = $
@@ -3375,7 +3376,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(optional, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -3398,7 +3399,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_return",
                                 kindNameOptions: "ReturnStatement",
                             })
@@ -3408,7 +3409,7 @@ export function parse<Annotation>(
                 const choose_labeled = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "LabeledStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "LabeledStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_labeled",
                                     token: currentChild,
@@ -3417,14 +3418,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_labeled$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_labeled$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_labeled$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_labeled$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -3457,7 +3458,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_labeled",
                                 kindNameOptions: "LabeledStatement",
                             })
@@ -3467,7 +3468,7 @@ export function parse<Annotation>(
                 const choose_interface = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "InterfaceDeclaration") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "InterfaceDeclaration")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_interface",
                                     token: currentChild,
@@ -3476,18 +3477,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_interface$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_interface$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_interface$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_interface$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGstatement_interface$_modifiers<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGstatement_interface$_modifiers>()
                                 const processElement = () => {
                                     Gmodifier(node, children, ($) => {
                                         elements.push($)
@@ -3514,7 +3515,7 @@ export function parse<Annotation>(
                                     const _modifiers = $
                                     Gidentifier(node, children, ($) => {
                                         const _name = $
-                                        const elements = pm.createArrayBuilder<api.TVTGstatement_interface$_typeParameters<Annotation>>()
+                                        const elements = pm.createArrayBuilder<api.TVTGstatement_interface$_typeParameters>()
                                         const processElement = () => {
                                             GtypeParameter(node, children, ($) => {
                                                 elements.push($)
@@ -3533,7 +3534,7 @@ export function parse<Annotation>(
                                         )
                                         pl.cc(elements.getArray(), ($) => {
                                             const _typeParameters = $
-                                            const elements = pm.createArrayBuilder<api.TVTGstatement_interface$_signature<Annotation>>()
+                                            const elements = pm.createArrayBuilder<api.TVTGstatement_interface$_signature>()
                                             const processElement = () => {
                                                 GtypeSignature(node, children, ($) => {
                                                     elements.push($)
@@ -3590,7 +3591,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_interface",
                                 kindNameOptions: "InterfaceDeclaration",
                             })
@@ -3600,7 +3601,7 @@ export function parse<Annotation>(
                 const choose_import = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ImportDeclaration") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ImportDeclaration")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_import",
                                     token: currentChild,
@@ -3609,20 +3610,20 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_import$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_import$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_import$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_import$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
                                 children.pop(
                                     (currentChild) => {
-                                        if (currentChild.kindName !== "ImportClause") {
+                                        if ($d.stringsNotEqual(currentChild.kindName, "ImportClause")) {
                                             $x.reportUnexpectedToken({
                                                 path: "Gstatement_import$_clause",
                                                 token: currentChild,
@@ -3631,14 +3632,14 @@ export function parse<Annotation>(
                                             return
                                         }
                                         ((
-                                            $: uast.TUntypedNode<Annotation>,
-                                            callback: ($: api.TNGstatement_import$_clause$<Annotation>) => void,
+                                            $: uast.TUntypedNode,
+                                            callback: ($: api.TNGstatement_import$_clause$) => void,
                                         ): void => {
                                             const node = $
                                             const children = pm.createStack($.children)
-                                            const choiceEnd_Gstatement_import$_clause$ = ($: api.TVTGstatement_import$_clause$<Annotation>) => {
+                                            const choiceEnd_Gstatement_import$_clause$ = ($: api.TVTGstatement_import$_clause$) => {
                                                 callback({
-                                                    annotation: node.implementationDetails,
+                                                    annotation: node.details,
                                                     content: $,
                                                 })
                                             }
@@ -3647,7 +3648,7 @@ export function parse<Annotation>(
                                                     const choose_named = () => {
                                                         children.pop(
                                                             (currentChild) => {
-                                                                if (currentChild.kindName !== "NamedImports") {
+                                                                if ($d.stringsNotEqual(currentChild.kindName, "NamedImports")) {
                                                                     $x.reportUnexpectedToken({
                                                                         path: "Gstatement_import$_clause$_named",
                                                                         token: currentChild,
@@ -3656,16 +3657,16 @@ export function parse<Annotation>(
                                                                     return
                                                                 }
                                                                 ((
-                                                                    $: uast.TUntypedNode<Annotation>,
-                                                                    callback: ($: api.TNGstatement_import$_clause$_named$<Annotation>) => void,
+                                                                    $: uast.TUntypedNode,
+                                                                    callback: ($: api.TNGstatement_import$_clause$_named$) => void,
                                                                 ): void => {
                                                                     const node = $
                                                                     const children = pm.createStack($.children)
-                                                                    const elements = pm.createArrayBuilder<api.TVTGstatement_import$_clause$_named$<Annotation>>()
+                                                                    const elements = pm.createArrayBuilder<api.TVTGstatement_import$_clause$_named$>()
                                                                     const processElement = () => {
                                                                         children.pop(
                                                                             (currentChild) => {
-                                                                                if (currentChild.kindName !== "ImportSpecifier") {
+                                                                                if ($d.stringsNotEqual(currentChild.kindName, "ImportSpecifier")) {
                                                                                     $x.reportUnexpectedToken({
                                                                                         path: "Gstatement_import$_clause$_named$",
                                                                                         token: currentChild,
@@ -3674,20 +3675,20 @@ export function parse<Annotation>(
                                                                                     return
                                                                                 }
                                                                                 ((
-                                                                                    $: uast.TUntypedNode<Annotation>,
-                                                                                    callback: ($: api.TNGstatement_import$_clause$_named$$<Annotation>) => void,
+                                                                                    $: uast.TUntypedNode,
+                                                                                    callback: ($: api.TNGstatement_import$_clause$_named$$) => void,
                                                                                 ): void => {
                                                                                     const node = $
                                                                                     const children = pm.createStack($.children)
-                                                                                    const sequenceEnd = ($: api.TVTGstatement_import$_clause$_named$$<Annotation>) => {
+                                                                                    const sequenceEnd = ($: api.TVTGstatement_import$_clause$_named$$) => {
                                                                                         callback({
-                                                                                            annotation: node.implementationDetails,
+                                                                                            annotation: node.details,
                                                                                             content: $,
                                                                                         })
                                                                                     }
                                                                                     Gidentifier(node, children, ($) => {
                                                                                         const _name = $
-                                                                                        let optional: null | api.TVTGstatement_import$_clause$_named$$_as<Annotation> = null
+                                                                                        let optional: null | api.TVTGstatement_import$_clause$_named$$_as = null
                                                                                         const setOptional = () => {
                                                                                             Gidentifier(node, children, ($) => {
                                                                                                 optional = $
@@ -3730,7 +3731,7 @@ export function parse<Annotation>(
                                                                             },
                                                                             () => { // no child
                                                                                 $x.reportMissingToken({
-                                                                                    parentAnnotation: node.implementationDetails,
+                                                                                    parentDetails: node.details,
                                                                                     path: "Gstatement_import$_clause$_named$",
                                                                                     kindNameOptions: "ImportSpecifier",
                                                                                 })
@@ -3750,7 +3751,7 @@ export function parse<Annotation>(
                                                                     )
                                                                     pl.cc(elements.getArray(), ($) => {
                                                                         callback({
-                                                                            annotation: node.implementationDetails,
+                                                                            annotation: node.details,
                                                                             content: $,
                                                                         })
                                                                     })
@@ -3773,7 +3774,7 @@ export function parse<Annotation>(
                                                             },
                                                             () => { // no child
                                                                 $x.reportMissingToken({
-                                                                    parentAnnotation: node.implementationDetails,
+                                                                    parentDetails: node.details,
                                                                     path: "Gstatement_import$_clause$_named",
                                                                     kindNameOptions: "NamedImports",
                                                                 })
@@ -3783,7 +3784,7 @@ export function parse<Annotation>(
                                                     const choose_namespace = () => {
                                                         children.pop(
                                                             (currentChild) => {
-                                                                if (currentChild.kindName !== "NamespaceImport") {
+                                                                if ($d.stringsNotEqual(currentChild.kindName, "NamespaceImport")) {
                                                                     $x.reportUnexpectedToken({
                                                                         path: "Gstatement_import$_clause$_namespace",
                                                                         token: currentChild,
@@ -3792,14 +3793,14 @@ export function parse<Annotation>(
                                                                     return
                                                                 }
                                                                 ((
-                                                                    $: uast.TUntypedNode<Annotation>,
-                                                                    callback: ($: api.TNGstatement_import$_clause$_namespace$<Annotation>) => void,
+                                                                    $: uast.TUntypedNode,
+                                                                    callback: ($: api.TNGstatement_import$_clause$_namespace$) => void,
                                                                 ): void => {
                                                                     const node = $
                                                                     const children = pm.createStack($.children)
                                                                     Gidentifier(node, children, ($) => {
                                                                         callback({
-                                                                            annotation: node.implementationDetails,
+                                                                            annotation: node.details,
                                                                             content: $,
                                                                         })
                                                                     })
@@ -3822,7 +3823,7 @@ export function parse<Annotation>(
                                                             },
                                                             () => { // no child
                                                                 $x.reportMissingToken({
-                                                                    parentAnnotation: node.implementationDetails,
+                                                                    parentDetails: node.details,
                                                                     path: "Gstatement_import$_clause$_namespace",
                                                                     kindNameOptions: "NamespaceImport",
                                                                 })
@@ -3849,7 +3850,7 @@ export function parse<Annotation>(
                                                 },
                                                 () => { //no child
                                                     $x.reportMissingToken({
-                                                        parentAnnotation: node.implementationDetails,
+                                                        parentDetails: node.details,
                                                         path: "Gstatement_import$_clause$",
                                                         kindNameOptions: "NamespaceImport, NamedImports",
                                                     })
@@ -3881,7 +3882,7 @@ export function parse<Annotation>(
                                     },
                                     () => { // no child
                                         $x.reportMissingToken({
-                                            parentAnnotation: node.implementationDetails,
+                                            parentDetails: node.details,
                                             path: "Gstatement_import$_clause",
                                             kindNameOptions: "ImportClause",
                                         })
@@ -3906,7 +3907,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_import",
                                 kindNameOptions: "ImportDeclaration",
                             })
@@ -3916,7 +3917,7 @@ export function parse<Annotation>(
                 const choose_if = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "IfStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "IfStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_if",
                                     token: currentChild,
@@ -3925,14 +3926,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_if$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_if$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_if$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_if$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -3940,7 +3941,7 @@ export function parse<Annotation>(
                                     const _expression = $
                                     Gstatement(node, children, ($) => {
                                         const _thenStatement = $
-                                        let optional: null | api.TVTGstatement_if$_elseStatement<Annotation> = null
+                                        let optional: null | api.TVTGstatement_if$_elseStatement = null
                                         const setOptional = () => {
                                             Gstatement(node, children, ($) => {
                                                 optional = $
@@ -4036,7 +4037,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_if",
                                 kindNameOptions: "IfStatement",
                             })
@@ -4046,7 +4047,7 @@ export function parse<Annotation>(
                 const choose_function = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "FunctionDeclaration") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "FunctionDeclaration")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_function",
                                     token: currentChild,
@@ -4055,18 +4056,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_function$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_function$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_function$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_function$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGstatement_function$_modifiers<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGstatement_function$_modifiers>()
                                 const processElement = () => {
                                     Gmodifier(node, children, ($) => {
                                         elements.push($)
@@ -4095,7 +4096,7 @@ export function parse<Annotation>(
                                         const _name = $
                                         GfunctionDefinition(node, children, ($) => {
                                             const _definition = $
-                                            let optional: null | api.TVTGstatement_function$_block<Annotation> = null
+                                            let optional: null | api.TVTGstatement_function$_block = null
                                             const setOptional = () => {
                                                 Gblock(node, children, ($) => {
                                                     optional = $
@@ -4142,7 +4143,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_function",
                                 kindNameOptions: "FunctionDeclaration",
                             })
@@ -4152,7 +4153,7 @@ export function parse<Annotation>(
                 const choose_for = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ForStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ForStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_for",
                                     token: currentChild,
@@ -4161,14 +4162,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_for$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_for$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_for$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_for$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -4209,7 +4210,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_for",
                                 kindNameOptions: "ForStatement",
                             })
@@ -4219,7 +4220,7 @@ export function parse<Annotation>(
                 const choose_expression = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ExpressionStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ExpressionStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_expression",
                                     token: currentChild,
@@ -4228,14 +4229,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_expression$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_expression$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -4258,7 +4259,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_expression",
                                 kindNameOptions: "ExpressionStatement",
                             })
@@ -4268,7 +4269,7 @@ export function parse<Annotation>(
                 const choose_export = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ExportDeclaration") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ExportDeclaration")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_export",
                                     token: currentChild,
@@ -4277,14 +4278,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_export$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_export$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 GstringLiteral(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -4307,7 +4308,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_export",
                                 kindNameOptions: "ExportDeclaration",
                             })
@@ -4317,7 +4318,7 @@ export function parse<Annotation>(
                 const choose_class = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ClassDeclaration") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ClassDeclaration")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_class",
                                     token: currentChild,
@@ -4326,24 +4327,24 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_class$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_class$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGstatement_class$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGstatement_class$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
                                 Gidentifier(node, children, ($) => {
                                     const _name = $
-                                    let optional: null | api.TVTGstatement_class$_heritageClause<Annotation> = null
+                                    let optional: null | api.TVTGstatement_class$_heritageClause = null
                                     const setOptional = () => {
                                         children.pop(
                                             (currentChild) => {
-                                                if (currentChild.kindName !== "HeritageClause") {
+                                                if ($d.stringsNotEqual(currentChild.kindName, "HeritageClause")) {
                                                     $x.reportUnexpectedToken({
                                                         path: "Gstatement_class$_heritageClause",
                                                         token: currentChild,
@@ -4352,16 +4353,16 @@ export function parse<Annotation>(
                                                     return
                                                 }
                                                 ((
-                                                    $: uast.TUntypedNode<Annotation>,
-                                                    callback: ($: api.TNGstatement_class$_heritageClause$<Annotation>) => void,
+                                                    $: uast.TUntypedNode,
+                                                    callback: ($: api.TNGstatement_class$_heritageClause$) => void,
                                                 ): void => {
                                                     const node = $
                                                     const children = pm.createStack($.children)
-                                                    const elements = pm.createArrayBuilder<api.TVTGstatement_class$_heritageClause$<Annotation>>()
+                                                    const elements = pm.createArrayBuilder<api.TVTGstatement_class$_heritageClause$>()
                                                     const processElement = () => {
                                                         children.pop(
                                                             (currentChild) => {
-                                                                if (currentChild.kindName !== "ExpressionWithTypeArguments") {
+                                                                if ($d.stringsNotEqual(currentChild.kindName, "ExpressionWithTypeArguments")) {
                                                                     $x.reportUnexpectedToken({
                                                                         path: "Gstatement_class$_heritageClause$",
                                                                         token: currentChild,
@@ -4370,20 +4371,20 @@ export function parse<Annotation>(
                                                                     return
                                                                 }
                                                                 ((
-                                                                    $: uast.TUntypedNode<Annotation>,
-                                                                    callback: ($: api.TNGstatement_class$_heritageClause$$<Annotation>) => void,
+                                                                    $: uast.TUntypedNode,
+                                                                    callback: ($: api.TNGstatement_class$_heritageClause$$) => void,
                                                                 ): void => {
                                                                     const node = $
                                                                     const children = pm.createStack($.children)
-                                                                    const sequenceEnd = ($: api.TVTGstatement_class$_heritageClause$$<Annotation>) => {
+                                                                    const sequenceEnd = ($: api.TVTGstatement_class$_heritageClause$$) => {
                                                                         callback({
-                                                                            annotation: node.implementationDetails,
+                                                                            annotation: node.details,
                                                                             content: $,
                                                                         })
                                                                     }
                                                                     Gexpression(node, children, ($) => {
                                                                         const _expression = $
-                                                                        const elements = pm.createArrayBuilder<api.TVTGstatement_class$_heritageClause$$_typeArguments<Annotation>>()
+                                                                        const elements = pm.createArrayBuilder<api.TVTGstatement_class$_heritageClause$$_typeArguments>()
                                                                         const processElement = () => {
                                                                             Gtype(node, children, ($) => {
                                                                                 elements.push($)
@@ -4472,7 +4473,7 @@ export function parse<Annotation>(
                                                             },
                                                             () => { // no child
                                                                 $x.reportMissingToken({
-                                                                    parentAnnotation: node.implementationDetails,
+                                                                    parentDetails: node.details,
                                                                     path: "Gstatement_class$_heritageClause$",
                                                                     kindNameOptions: "ExpressionWithTypeArguments",
                                                                 })
@@ -4492,7 +4493,7 @@ export function parse<Annotation>(
                                                     )
                                                     pl.cc(elements.getArray(), ($) => {
                                                         callback({
-                                                            annotation: node.implementationDetails,
+                                                            annotation: node.details,
                                                             content: $,
                                                         })
                                                     })
@@ -4515,7 +4516,7 @@ export function parse<Annotation>(
                                             },
                                             () => { // no child
                                                 $x.reportMissingToken({
-                                                    parentAnnotation: node.implementationDetails,
+                                                    parentDetails: node.details,
                                                     path: "Gstatement_class$_heritageClause",
                                                     kindNameOptions: "HeritageClause",
                                                 })
@@ -4534,9 +4535,9 @@ export function parse<Annotation>(
                                     )
                                     pl.cc(optional, ($) => {
                                         const _heritageClause = $
-                                        const elements = pm.createArrayBuilder<api.TVTGstatement_class$_members<Annotation>>()
+                                        const elements = pm.createArrayBuilder<api.TVTGstatement_class$_members>()
                                         const processElement = () => {
-                                            const choiceEnd_Gstatement_class$_members = ($: api.TVTGstatement_class$_members<Annotation>) => {
+                                            const choiceEnd_Gstatement_class$_members = ($: api.TVTGstatement_class$_members) => {
                                                 elements.push($)
                                             }
                                             $d.lookAhead(children, 
@@ -4562,7 +4563,7 @@ export function parse<Annotation>(
                                                 },
                                                 () => { //no child
                                                     $x.reportMissingToken({
-                                                        parentAnnotation: node.implementationDetails,
+                                                        parentDetails: node.details,
                                                         path: "Gstatement_class$_members",
                                                         kindNameOptions: "GetAccessor",
                                                     })
@@ -4609,7 +4610,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_class",
                                 kindNameOptions: "ClassDeclaration",
                             })
@@ -4619,7 +4620,7 @@ export function parse<Annotation>(
                 const choose_break = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "BreakStatement") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "BreakStatement")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gstatement_break",
                                     token: currentChild,
@@ -4628,12 +4629,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGstatement_break$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGstatement_break$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                let optional: null | api.TVTGstatement_break$<Annotation> = null
+                                let optional: null | api.TVTGstatement_break$ = null
                                 const setOptional = () => {
                                     Gidentifier(node, children, ($) => {
                                         optional = $
@@ -4651,7 +4652,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(optional, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -4674,7 +4675,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gstatement_break",
                                 kindNameOptions: "BreakStatement",
                             })
@@ -4770,7 +4771,7 @@ export function parse<Annotation>(
             },
             () => { //no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "Gstatement",
                     kindNameOptions: "Block, BreakStatement, ClassDeclaration, ExportDeclaration, ExpressionStatement, ForStatement, FunctionDeclaration, IfStatement, ImportDeclaration, InterfaceDeclaration, LabeledStatement, ReturnStatement, SwitchStatement, ThrowStatement, TryStatement, TypeAliasDeclaration, VariableStatement, WhileStatement",
                 })
@@ -4778,13 +4779,13 @@ export function parse<Annotation>(
         )
     }
     function Gparameter(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGparameter<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGparameter) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "Parameter") {
+                if ($d.stringsNotEqual(currentChild.kindName, "Parameter")) {
                     $x.reportUnexpectedToken({
                         path: "Gparameter",
                         token: currentChild,
@@ -4793,24 +4794,24 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGparameter$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGparameter$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
-                    const sequenceEnd = ($: api.TVTGparameter$<Annotation>) => {
+                    const sequenceEnd = ($: api.TVTGparameter$) => {
                         callback({
-                            annotation: node.implementationDetails,
+                            annotation: node.details,
                             content: $,
                         })
                     }
                     Gidentifier(node, children, ($) => {
                         const _name = $
-                        let optional: null | api.TVTGparameter$_questionToken<Annotation> = null
+                        let optional: null | api.TVTGparameter$_questionToken = null
                         const setOptional = () => {
                             children.pop(
                                 (currentChild) => {
-                                    if (currentChild.kindName !== "QuestionToken") {
+                                    if ($d.stringsNotEqual(currentChild.kindName, "QuestionToken")) {
                                         $x.reportUnexpectedToken({
                                             path: "Gparameter$_questionToken",
                                             token: currentChild,
@@ -4819,12 +4820,12 @@ export function parse<Annotation>(
                                         return
                                     }
                                     ((
-                                        $: uast.TUntypedNode<Annotation>,
-                                        callback: ($: api.TNGparameter$_questionToken$<Annotation>) => void,
+                                        $: uast.TUntypedNode,
+                                        callback: ($: api.TNGparameter$_questionToken$) => void,
                                     ): void => {
                                         const node = $
                                         const children = pm.createStack($.children)
-                                        callback($.implementationDetails)
+                                        callback($.details)
                                         children.pop(
                                             (nextChild) => {
                                                 $x.reportUnexpectedToken({
@@ -4844,7 +4845,7 @@ export function parse<Annotation>(
                                 },
                                 () => { // no child
                                     $x.reportMissingToken({
-                                        parentAnnotation: node.implementationDetails,
+                                        parentDetails: node.details,
                                         path: "Gparameter$_questionToken",
                                         kindNameOptions: "QuestionToken",
                                     })
@@ -4863,7 +4864,7 @@ export function parse<Annotation>(
                         )
                         pl.cc(optional, ($) => {
                             const _questionToken = $
-                            let optional: null | api.TVTGparameter$_type<Annotation> = null
+                            let optional: null | api.TVTGparameter$_type = null
                             const setOptional = () => {
                                 Gtype(node, children, ($) => {
                                     optional = $
@@ -4953,7 +4954,7 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "Gparameter",
                     kindNameOptions: "Parameter",
                 })
@@ -4961,13 +4962,13 @@ export function parse<Annotation>(
         )
     }
     function GnumericLiteral(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGnumericLiteral<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGnumericLiteral) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "NumericLiteral") {
+                if ($d.stringsNotEqual(currentChild.kindName, "NumericLiteral")) {
                     $x.reportUnexpectedToken({
                         path: "GnumericLiteral",
                         token: currentChild,
@@ -4976,13 +4977,13 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGnumericLiteral$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGnumericLiteral$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
                     callback({
-                        annotation: $.implementationDetails,
+                        annotation: $.details,
                         value: $.value
                     })
                     children.pop(
@@ -5004,7 +5005,7 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "GnumericLiteral",
                     kindNameOptions: "NumericLiteral",
                 })
@@ -5012,11 +5013,11 @@ export function parse<Annotation>(
         )
     }
     function Gmodifier(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGmodifier<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGmodifier) => void,
     ): void {
-        const choiceEnd_Gmodifier = ($: api.TVTGmodifier<Annotation>) => {
+        const choiceEnd_Gmodifier = ($: api.TVTGmodifier) => {
             callback($)
         }
         $d.lookAhead(children, 
@@ -5024,7 +5025,7 @@ export function parse<Annotation>(
                 const choose_readonly = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ReadonlyKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ReadonlyKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gmodifier_readonly",
                                     token: currentChild,
@@ -5033,12 +5034,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGmodifier_readonly$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGmodifier_readonly$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -5058,7 +5059,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gmodifier_readonly",
                                 kindNameOptions: "ReadonlyKeyword",
                             })
@@ -5068,7 +5069,7 @@ export function parse<Annotation>(
                 const choose_export = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ExportKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ExportKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gmodifier_export",
                                     token: currentChild,
@@ -5077,12 +5078,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGmodifier_export$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGmodifier_export$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -5102,7 +5103,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gmodifier_export",
                                 kindNameOptions: "ExportKeyword",
                             })
@@ -5112,7 +5113,7 @@ export function parse<Annotation>(
                 const choose_declare = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "DeclareKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "DeclareKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gmodifier_declare",
                                     token: currentChild,
@@ -5121,12 +5122,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGmodifier_declare$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGmodifier_declare$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -5146,7 +5147,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gmodifier_declare",
                                 kindNameOptions: "DeclareKeyword",
                             })
@@ -5177,7 +5178,7 @@ export function parse<Annotation>(
             },
             () => { //no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "Gmodifier",
                     kindNameOptions: "DeclareKeyword, ExportKeyword, ReadonlyKeyword",
                 })
@@ -5185,11 +5186,11 @@ export function parse<Annotation>(
         )
     }
     function GidentifierOrStringLiteral(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGidentifierOrStringLiteral<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGidentifierOrStringLiteral) => void,
     ): void {
-        const choiceEnd_GidentifierOrStringLiteral = ($: api.TVTGidentifierOrStringLiteral<Annotation>) => {
+        const choiceEnd_GidentifierOrStringLiteral = ($: api.TVTGidentifierOrStringLiteral) => {
             callback($)
         }
         $d.lookAhead(children, 
@@ -5224,7 +5225,7 @@ export function parse<Annotation>(
             },
             () => { //no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "GidentifierOrStringLiteral",
                     kindNameOptions: "Identifier, StringLiteral",
                 })
@@ -5232,13 +5233,13 @@ export function parse<Annotation>(
         )
     }
     function Gidentifier(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGidentifier<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGidentifier) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "Identifier") {
+                if ($d.stringsNotEqual(currentChild.kindName, "Identifier")) {
                     $x.reportUnexpectedToken({
                         path: "Gidentifier",
                         token: currentChild,
@@ -5247,13 +5248,13 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGidentifier$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGidentifier$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
                     callback({
-                        annotation: $.implementationDetails,
+                        annotation: $.details,
                         value: $.value
                     })
                     children.pop(
@@ -5275,7 +5276,7 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "Gidentifier",
                     kindNameOptions: "Identifier",
                 })
@@ -5283,13 +5284,13 @@ export function parse<Annotation>(
         )
     }
     function GgetAccessor(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGgetAccessor<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGgetAccessor) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "GetAccessor") {
+                if ($d.stringsNotEqual(currentChild.kindName, "GetAccessor")) {
                     $x.reportUnexpectedToken({
                         path: "GgetAccessor",
                         token: currentChild,
@@ -5298,14 +5299,14 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGgetAccessor$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGgetAccessor$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
-                    const sequenceEnd = ($: api.TVTGgetAccessor$<Annotation>) => {
+                    const sequenceEnd = ($: api.TVTGgetAccessor$) => {
                         callback({
-                            annotation: node.implementationDetails,
+                            annotation: node.details,
                             content: $,
                         })
                     }
@@ -5338,7 +5339,7 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "GgetAccessor",
                     kindNameOptions: "GetAccessor",
                 })
@@ -5346,14 +5347,14 @@ export function parse<Annotation>(
         )
     }
     function GfunctionDefinition(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGfunctionDefinition<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGfunctionDefinition) => void,
     ): void {
-        const sequenceEnd = ($: api.TVTGfunctionDefinition<Annotation>) => {
+        const sequenceEnd = ($: api.TVTGfunctionDefinition) => {
             callback($)
         }
-        const elements = pm.createArrayBuilder<api.TVTGfunctionDefinition_typeParameters<Annotation>>()
+        const elements = pm.createArrayBuilder<api.TVTGfunctionDefinition_typeParameters>()
         const processElement = () => {
             GtypeParameter(node, children, ($) => {
                 elements.push($)
@@ -5372,7 +5373,7 @@ export function parse<Annotation>(
         )
         pl.cc(elements.getArray(), ($) => {
             const _typeParameters = $
-            const elements = pm.createArrayBuilder<api.TVTGfunctionDefinition_parameters<Annotation>>()
+            const elements = pm.createArrayBuilder<api.TVTGfunctionDefinition_parameters>()
             const processElement = () => {
                 Gparameter(node, children, ($) => {
                     elements.push($)
@@ -5391,7 +5392,7 @@ export function parse<Annotation>(
             )
             pl.cc(elements.getArray(), ($) => {
                 const _parameters = $
-                let optional: null | api.TVTGfunctionDefinition_returnType<Annotation> = null
+                let optional: null | api.TVTGfunctionDefinition_returnType = null
                 const setOptional = () => {
                     Gtype(node, children, ($) => {
                         optional = $
@@ -5464,11 +5465,11 @@ export function parse<Annotation>(
         })
     }
     function Gexpression(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGexpression<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGexpression) => void,
     ): void {
-        const choiceEnd_Gexpression = ($: api.TVTGexpression<Annotation>) => {
+        const choiceEnd_Gexpression = ($: api.TVTGexpression) => {
             callback($)
         }
         $d.lookAhead(children, 
@@ -5476,7 +5477,7 @@ export function parse<Annotation>(
                 const choose_true = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "TrueKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "TrueKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_true",
                                     token: currentChild,
@@ -5485,12 +5486,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_true$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_true$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -5510,7 +5511,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_true",
                                 kindNameOptions: "TrueKeyword",
                             })
@@ -5520,7 +5521,7 @@ export function parse<Annotation>(
                 const choose_template = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "TemplateExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "TemplateExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_template",
                                     token: currentChild,
@@ -5529,20 +5530,20 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_template$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_template$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGexpression_template$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGexpression_template$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
                                 children.pop(
                                     (currentChild) => {
-                                        if (currentChild.kindName !== "TemplateHead") {
+                                        if ($d.stringsNotEqual(currentChild.kindName, "TemplateHead")) {
                                             $x.reportUnexpectedToken({
                                                 path: "Gexpression_template$_head",
                                                 token: currentChild,
@@ -5551,13 +5552,13 @@ export function parse<Annotation>(
                                             return
                                         }
                                         ((
-                                            $: uast.TUntypedNode<Annotation>,
-                                            callback: ($: api.TNGexpression_template$_head$<Annotation>) => void,
+                                            $: uast.TUntypedNode,
+                                            callback: ($: api.TNGexpression_template$_head$) => void,
                                         ): void => {
                                             const node = $
                                             const children = pm.createStack($.children)
                                             callback({
-                                                annotation: $.implementationDetails,
+                                                annotation: $.details,
                                                 value: $.value
                                             })
                                             children.pop(
@@ -5574,11 +5575,11 @@ export function parse<Annotation>(
                                             currentChild,
                                             ($) => {
                                                 const _head = $
-                                                const elements = pm.createArrayBuilder<api.TVTGexpression_template$_spans<Annotation>>()
+                                                const elements = pm.createArrayBuilder<api.TVTGexpression_template$_spans>()
                                                 const processElement = () => {
                                                     children.pop(
                                                         (currentChild) => {
-                                                            if (currentChild.kindName !== "TemplateSpan") {
+                                                            if ($d.stringsNotEqual(currentChild.kindName, "TemplateSpan")) {
                                                                 $x.reportUnexpectedToken({
                                                                     path: "Gexpression_template$_spans",
                                                                     token: currentChild,
@@ -5587,20 +5588,20 @@ export function parse<Annotation>(
                                                                 return
                                                             }
                                                             ((
-                                                                $: uast.TUntypedNode<Annotation>,
-                                                                callback: ($: api.TNGexpression_template$_spans$<Annotation>) => void,
+                                                                $: uast.TUntypedNode,
+                                                                callback: ($: api.TNGexpression_template$_spans$) => void,
                                                             ): void => {
                                                                 const node = $
                                                                 const children = pm.createStack($.children)
-                                                                const sequenceEnd = ($: api.TVTGexpression_template$_spans$<Annotation>) => {
+                                                                const sequenceEnd = ($: api.TVTGexpression_template$_spans$) => {
                                                                     callback({
-                                                                        annotation: node.implementationDetails,
+                                                                        annotation: node.details,
                                                                         content: $,
                                                                     })
                                                                 }
                                                                 Gexpression(node, children, ($) => {
                                                                     const _expression = $
-                                                                    const choiceEnd_Gexpression_template$_spans$_x = ($: api.TVTGexpression_template$_spans$_x<Annotation>) => {
+                                                                    const choiceEnd_Gexpression_template$_spans$_x = ($: api.TVTGexpression_template$_spans$_x) => {
                                                                         const _x = $
                                                                         sequenceEnd({
                                                                             "expression": _expression,
@@ -5612,7 +5613,7 @@ export function parse<Annotation>(
                                                                             const choose_tail = () => {
                                                                                 children.pop(
                                                                                     (currentChild) => {
-                                                                                        if (currentChild.kindName !== "TemplateTail") {
+                                                                                        if ($d.stringsNotEqual(currentChild.kindName, "TemplateTail")) {
                                                                                             $x.reportUnexpectedToken({
                                                                                                 path: "Gexpression_template$_spans$_x_tail",
                                                                                                 token: currentChild,
@@ -5621,13 +5622,13 @@ export function parse<Annotation>(
                                                                                             return
                                                                                         }
                                                                                         ((
-                                                                                            $: uast.TUntypedNode<Annotation>,
-                                                                                            callback: ($: api.TNGexpression_template$_spans$_x_tail$<Annotation>) => void,
+                                                                                            $: uast.TUntypedNode,
+                                                                                            callback: ($: api.TNGexpression_template$_spans$_x_tail$) => void,
                                                                                         ): void => {
                                                                                             const node = $
                                                                                             const children = pm.createStack($.children)
                                                                                             callback({
-                                                                                                annotation: $.implementationDetails,
+                                                                                                annotation: $.details,
                                                                                                 value: $.value
                                                                                             })
                                                                                             children.pop(
@@ -5649,7 +5650,7 @@ export function parse<Annotation>(
                                                                                     },
                                                                                     () => { // no child
                                                                                         $x.reportMissingToken({
-                                                                                            parentAnnotation: node.implementationDetails,
+                                                                                            parentDetails: node.details,
                                                                                             path: "Gexpression_template$_spans$_x_tail",
                                                                                             kindNameOptions: "TemplateTail",
                                                                                         })
@@ -5659,7 +5660,7 @@ export function parse<Annotation>(
                                                                             const choose_middle = () => {
                                                                                 children.pop(
                                                                                     (currentChild) => {
-                                                                                        if (currentChild.kindName !== "TemplateMiddle") {
+                                                                                        if ($d.stringsNotEqual(currentChild.kindName, "TemplateMiddle")) {
                                                                                             $x.reportUnexpectedToken({
                                                                                                 path: "Gexpression_template$_spans$_x_middle",
                                                                                                 token: currentChild,
@@ -5668,13 +5669,13 @@ export function parse<Annotation>(
                                                                                             return
                                                                                         }
                                                                                         ((
-                                                                                            $: uast.TUntypedNode<Annotation>,
-                                                                                            callback: ($: api.TNGexpression_template$_spans$_x_middle$<Annotation>) => void,
+                                                                                            $: uast.TUntypedNode,
+                                                                                            callback: ($: api.TNGexpression_template$_spans$_x_middle$) => void,
                                                                                         ): void => {
                                                                                             const node = $
                                                                                             const children = pm.createStack($.children)
                                                                                             callback({
-                                                                                                annotation: $.implementationDetails,
+                                                                                                annotation: $.details,
                                                                                                 value: $.value
                                                                                             })
                                                                                             children.pop(
@@ -5696,7 +5697,7 @@ export function parse<Annotation>(
                                                                                     },
                                                                                     () => { // no child
                                                                                         $x.reportMissingToken({
-                                                                                            parentAnnotation: node.implementationDetails,
+                                                                                            parentDetails: node.details,
                                                                                             path: "Gexpression_template$_spans$_x_middle",
                                                                                             kindNameOptions: "TemplateMiddle",
                                                                                         })
@@ -5723,7 +5724,7 @@ export function parse<Annotation>(
                                                                         },
                                                                         () => { //no child
                                                                             $x.reportMissingToken({
-                                                                                parentAnnotation: node.implementationDetails,
+                                                                                parentDetails: node.details,
                                                                                 path: "Gexpression_template$_spans$_x",
                                                                                 kindNameOptions: "TemplateMiddle, TemplateTail",
                                                                             })
@@ -5749,7 +5750,7 @@ export function parse<Annotation>(
                                                         },
                                                         () => { // no child
                                                             $x.reportMissingToken({
-                                                                parentAnnotation: node.implementationDetails,
+                                                                parentDetails: node.details,
                                                                 path: "Gexpression_template$_spans",
                                                                 kindNameOptions: "TemplateSpan",
                                                             })
@@ -5779,7 +5780,7 @@ export function parse<Annotation>(
                                     },
                                     () => { // no child
                                         $x.reportMissingToken({
-                                            parentAnnotation: node.implementationDetails,
+                                            parentDetails: node.details,
                                             path: "Gexpression_template$_head",
                                             kindNameOptions: "TemplateHead",
                                         })
@@ -5804,7 +5805,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_template",
                                 kindNameOptions: "TemplateExpression",
                             })
@@ -5819,7 +5820,7 @@ export function parse<Annotation>(
                 const choose_propertyAccess = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "PropertyAccessExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "PropertyAccessExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_propertyAccess",
                                     token: currentChild,
@@ -5828,14 +5829,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_propertyAccess$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_propertyAccess$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGexpression_propertyAccess$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGexpression_propertyAccess$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -5868,7 +5869,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_propertyAccess",
                                 kindNameOptions: "PropertyAccessExpression",
                             })
@@ -5878,7 +5879,7 @@ export function parse<Annotation>(
                 const choose_prefixUnary = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "PrefixUnaryExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "PrefixUnaryExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_prefixUnary",
                                     token: currentChild,
@@ -5887,14 +5888,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_prefixUnary$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_prefixUnary$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -5917,7 +5918,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_prefixUnary",
                                 kindNameOptions: "PrefixUnaryExpression",
                             })
@@ -5927,7 +5928,7 @@ export function parse<Annotation>(
                 const choose_postfixUnary = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "PostfixUnaryExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "PostfixUnaryExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_postfixUnary",
                                     token: currentChild,
@@ -5936,14 +5937,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_postfixUnary$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_postfixUnary$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -5966,7 +5967,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_postfixUnary",
                                 kindNameOptions: "PostfixUnaryExpression",
                             })
@@ -5976,7 +5977,7 @@ export function parse<Annotation>(
                 const choose_parenthesizedExpression = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ParenthesizedExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ParenthesizedExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_parenthesizedExpression",
                                     token: currentChild,
@@ -5985,14 +5986,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_parenthesizedExpression$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_parenthesizedExpression$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
                                 Gexpression(node, children, ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -6015,7 +6016,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_parenthesizedExpression",
                                 kindNameOptions: "ParenthesizedExpression",
                             })
@@ -6025,7 +6026,7 @@ export function parse<Annotation>(
                 const choose_objectLiteral = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ObjectLiteralExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ObjectLiteralExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_objectLiteral",
                                     token: currentChild,
@@ -6034,14 +6035,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_objectLiteral$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_objectLiteral$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const elements = pm.createArrayBuilder<api.TVTGexpression_objectLiteral$<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGexpression_objectLiteral$>()
                                 const processElement = () => {
-                                    const choiceEnd_Gexpression_objectLiteral$ = ($: api.TVTGexpression_objectLiteral$<Annotation>) => {
+                                    const choiceEnd_Gexpression_objectLiteral$ = ($: api.TVTGexpression_objectLiteral$) => {
                                         elements.push($)
                                     }
                                     $d.lookAhead(children, 
@@ -6049,7 +6050,7 @@ export function parse<Annotation>(
                                             const choose_propertyAssignment = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "PropertyAssignment") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "PropertyAssignment")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_objectLiteral$_propertyAssignment",
                                                                 token: currentChild,
@@ -6058,18 +6059,18 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_objectLiteral$_propertyAssignment$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_objectLiteral$_propertyAssignment$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            const sequenceEnd = ($: api.TVTGexpression_objectLiteral$_propertyAssignment$<Annotation>) => {
+                                                            const sequenceEnd = ($: api.TVTGexpression_objectLiteral$_propertyAssignment$) => {
                                                                 callback({
-                                                                    annotation: node.implementationDetails,
+                                                                    annotation: node.details,
                                                                     content: $,
                                                                 })
                                                             }
-                                                            const choiceEnd_Gexpression_objectLiteral$_propertyAssignment$_name = ($: api.TVTGexpression_objectLiteral$_propertyAssignment$_name<Annotation>) => {
+                                                            const choiceEnd_Gexpression_objectLiteral$_propertyAssignment$_name = ($: api.TVTGexpression_objectLiteral$_propertyAssignment$_name) => {
                                                                 const _name = $
                                                                 Gexpression(node, children, ($) => {
                                                                     const _expression = $
@@ -6120,7 +6121,7 @@ export function parse<Annotation>(
                                                                 },
                                                                 () => { //no child
                                                                     $x.reportMissingToken({
-                                                                        parentAnnotation: node.implementationDetails,
+                                                                        parentDetails: node.details,
                                                                         path: "Gexpression_objectLiteral$_propertyAssignment$_name",
                                                                         kindNameOptions: "Identifier, NumericLiteral, StringLiteral",
                                                                     })
@@ -6145,7 +6146,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_objectLiteral$_propertyAssignment",
                                                             kindNameOptions: "PropertyAssignment",
                                                         })
@@ -6177,7 +6178,7 @@ export function parse<Annotation>(
                                         },
                                         () => { //no child
                                             $x.reportMissingToken({
-                                                parentAnnotation: node.implementationDetails,
+                                                parentDetails: node.details,
                                                 path: "Gexpression_objectLiteral$",
                                                 kindNameOptions: "GetAccessor, PropertyAssignment",
                                             })
@@ -6200,7 +6201,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -6223,7 +6224,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_objectLiteral",
                                 kindNameOptions: "ObjectLiteralExpression",
                             })
@@ -6233,7 +6234,7 @@ export function parse<Annotation>(
                 const choose_nullKeyword = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "NullKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "NullKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_nullKeyword",
                                     token: currentChild,
@@ -6242,12 +6243,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_nullKeyword$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_nullKeyword$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -6267,7 +6268,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_nullKeyword",
                                 kindNameOptions: "NullKeyword",
                             })
@@ -6282,7 +6283,7 @@ export function parse<Annotation>(
                 const choose_noSubstitutionTemplateLiteral = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "NoSubstitutionTemplateLiteral") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "NoSubstitutionTemplateLiteral")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_noSubstitutionTemplateLiteral",
                                     token: currentChild,
@@ -6291,12 +6292,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_noSubstitutionTemplateLiteral$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_noSubstitutionTemplateLiteral$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -6316,7 +6317,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_noSubstitutionTemplateLiteral",
                                 kindNameOptions: "NoSubstitutionTemplateLiteral",
                             })
@@ -6326,7 +6327,7 @@ export function parse<Annotation>(
                 const choose_new = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "NewExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "NewExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_new",
                                     token: currentChild,
@@ -6335,20 +6336,20 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_new$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_new$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGexpression_new$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGexpression_new$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
                                 Gexpression(node, children, ($) => {
                                     const _class = $
-                                    const elements = pm.createArrayBuilder<api.TVTGexpression_new$_parameters<Annotation>>()
+                                    const elements = pm.createArrayBuilder<api.TVTGexpression_new$_parameters>()
                                     const processElement = () => {
                                         Gexpression(node, children, ($) => {
                                             elements.push($)
@@ -6449,7 +6450,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_new",
                                 kindNameOptions: "NewExpression",
                             })
@@ -6464,7 +6465,7 @@ export function parse<Annotation>(
                 const choose_false = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "FalseKeyword") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "FalseKeyword")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_false",
                                     token: currentChild,
@@ -6473,12 +6474,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_false$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_false$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                callback($.implementationDetails)
+                                callback($.details)
                                 children.pop(
                                     (nextChild) => {
                                         $x.reportUnexpectedToken({
@@ -6498,7 +6499,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_false",
                                 kindNameOptions: "FalseKeyword",
                             })
@@ -6508,7 +6509,7 @@ export function parse<Annotation>(
                 const choose_elementAccess = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ElementAccessExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ElementAccessExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_elementAccess",
                                     token: currentChild,
@@ -6517,14 +6518,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_elementAccess$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_elementAccess$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGexpression_elementAccess$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGexpression_elementAccess$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -6557,7 +6558,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_elementAccess",
                                 kindNameOptions: "ElementAccessExpression",
                             })
@@ -6567,7 +6568,7 @@ export function parse<Annotation>(
                 const choose_conditional = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ConditionalExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ConditionalExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_conditional",
                                     token: currentChild,
@@ -6576,14 +6577,14 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_conditional$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_conditional$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGexpression_conditional$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGexpression_conditional$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
@@ -6591,7 +6592,7 @@ export function parse<Annotation>(
                                     const _test = $
                                     children.pop(
                                         (currentChild) => {
-                                            if (currentChild.kindName !== "QuestionToken") {
+                                            if ($d.stringsNotEqual(currentChild.kindName, "QuestionToken")) {
                                                 $x.reportUnexpectedToken({
                                                     path: "Gexpression_conditional$_questionToken",
                                                     token: currentChild,
@@ -6600,12 +6601,12 @@ export function parse<Annotation>(
                                                 return
                                             }
                                             ((
-                                                $: uast.TUntypedNode<Annotation>,
-                                                callback: ($: api.TNGexpression_conditional$_questionToken$<Annotation>) => void,
+                                                $: uast.TUntypedNode,
+                                                callback: ($: api.TNGexpression_conditional$_questionToken$) => void,
                                             ): void => {
                                                 const node = $
                                                 const children = pm.createStack($.children)
-                                                callback($.implementationDetails)
+                                                callback($.details)
                                                 children.pop(
                                                     (nextChild) => {
                                                         $x.reportUnexpectedToken({
@@ -6624,7 +6625,7 @@ export function parse<Annotation>(
                                                         const _ifExpression = $
                                                         children.pop(
                                                             (currentChild) => {
-                                                                if (currentChild.kindName !== "ColonToken") {
+                                                                if ($d.stringsNotEqual(currentChild.kindName, "ColonToken")) {
                                                                     $x.reportUnexpectedToken({
                                                                         path: "Gexpression_conditional$_colonToken",
                                                                         token: currentChild,
@@ -6633,12 +6634,12 @@ export function parse<Annotation>(
                                                                     return
                                                                 }
                                                                 ((
-                                                                    $: uast.TUntypedNode<Annotation>,
-                                                                    callback: ($: api.TNGexpression_conditional$_colonToken$<Annotation>) => void,
+                                                                    $: uast.TUntypedNode,
+                                                                    callback: ($: api.TNGexpression_conditional$_colonToken$) => void,
                                                                 ): void => {
                                                                     const node = $
                                                                     const children = pm.createStack($.children)
-                                                                    callback($.implementationDetails)
+                                                                    callback($.details)
                                                                     children.pop(
                                                                         (nextChild) => {
                                                                             $x.reportUnexpectedToken({
@@ -6668,7 +6669,7 @@ export function parse<Annotation>(
                                                             },
                                                             () => { // no child
                                                                 $x.reportMissingToken({
-                                                                    parentAnnotation: node.implementationDetails,
+                                                                    parentDetails: node.details,
                                                                     path: "Gexpression_conditional$_colonToken",
                                                                     kindNameOptions: "ColonToken",
                                                                 })
@@ -6680,7 +6681,7 @@ export function parse<Annotation>(
                                         },
                                         () => { // no child
                                             $x.reportMissingToken({
-                                                parentAnnotation: node.implementationDetails,
+                                                parentDetails: node.details,
                                                 path: "Gexpression_conditional$_questionToken",
                                                 kindNameOptions: "QuestionToken",
                                             })
@@ -6706,7 +6707,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_conditional",
                                 kindNameOptions: "ConditionalExpression",
                             })
@@ -6716,7 +6717,7 @@ export function parse<Annotation>(
                 const choose_call = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "CallExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "CallExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_call",
                                     token: currentChild,
@@ -6725,20 +6726,20 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_call$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_call$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGexpression_call$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGexpression_call$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
                                 Gexpression(node, children, ($) => {
                                     const _function = $
-                                    const elements = pm.createArrayBuilder<api.TVTGexpression_call$_typeParameters<Annotation>>()
+                                    const elements = pm.createArrayBuilder<api.TVTGexpression_call$_typeParameters>()
                                     const processElement = () => {
                                         Gtype(node, children, ($) => {
                                             elements.push($)
@@ -6802,7 +6803,7 @@ export function parse<Annotation>(
                                     )
                                     pl.cc(elements.getArray(), ($) => {
                                         const _typeParameters = $
-                                        const elements = pm.createArrayBuilder<api.TVTGexpression_call$_parameters<Annotation>>()
+                                        const elements = pm.createArrayBuilder<api.TVTGexpression_call$_parameters>()
                                         const processElement = () => {
                                             Gexpression(node, children, ($) => {
                                                 elements.push($)
@@ -6905,7 +6906,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_call",
                                 kindNameOptions: "CallExpression",
                             })
@@ -6915,7 +6916,7 @@ export function parse<Annotation>(
                 const choose_binary = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "BinaryExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "BinaryExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_binary",
                                     token: currentChild,
@@ -6924,20 +6925,20 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_binary$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_binary$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGexpression_binary$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGexpression_binary$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
                                 Gexpression(node, children, ($) => {
                                     const _leftHandSide = $
-                                    const choiceEnd_Gexpression_binary$_operator = ($: api.TVTGexpression_binary$_operator<Annotation>) => {
+                                    const choiceEnd_Gexpression_binary$_operator = ($: api.TVTGexpression_binary$_operator) => {
                                         const _operator = $
                                         Gexpression(node, children, ($) => {
                                             const _rightHandSide = $
@@ -6953,7 +6954,7 @@ export function parse<Annotation>(
                                             const choose_plusEquals = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "PlusEqualsToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "PlusEqualsToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_plusEquals",
                                                                 token: currentChild,
@@ -6962,12 +6963,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_plusEquals$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_plusEquals$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -6987,7 +6988,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_plusEquals",
                                                             kindNameOptions: "PlusEqualsToken",
                                                         })
@@ -6997,7 +6998,7 @@ export function parse<Annotation>(
                                             const choose_plus = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "PlusToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "PlusToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_plus",
                                                                 token: currentChild,
@@ -7006,12 +7007,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_plus$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_plus$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7031,7 +7032,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_plus",
                                                             kindNameOptions: "PlusToken",
                                                         })
@@ -7041,7 +7042,7 @@ export function parse<Annotation>(
                                             const choose_minusEquals = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "MinusEqualsToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "MinusEqualsToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_minusEquals",
                                                                 token: currentChild,
@@ -7050,12 +7051,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_minusEquals$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_minusEquals$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7075,7 +7076,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_minusEquals",
                                                             kindNameOptions: "MinusEqualsToken",
                                                         })
@@ -7085,7 +7086,7 @@ export function parse<Annotation>(
                                             const choose_minus = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "MinusToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "MinusToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_minus",
                                                                 token: currentChild,
@@ -7094,12 +7095,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_minus$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_minus$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7119,7 +7120,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_minus",
                                                             kindNameOptions: "MinusToken",
                                                         })
@@ -7129,7 +7130,7 @@ export function parse<Annotation>(
                                             const choose_lessThan = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "LessThanToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "LessThanToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_lessThan",
                                                                 token: currentChild,
@@ -7138,12 +7139,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_lessThan$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_lessThan$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7163,7 +7164,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_lessThan",
                                                             kindNameOptions: "LessThanToken",
                                                         })
@@ -7173,7 +7174,7 @@ export function parse<Annotation>(
                                             const choose_greaterThan = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "GreaterThanToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "GreaterThanToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_greaterThan",
                                                                 token: currentChild,
@@ -7182,12 +7183,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_greaterThan$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_greaterThan$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7207,7 +7208,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_greaterThan",
                                                             kindNameOptions: "GreaterThanToken",
                                                         })
@@ -7217,7 +7218,7 @@ export function parse<Annotation>(
                                             const choose_exclamationEqualsEquals = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "ExclamationEqualsEqualsToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "ExclamationEqualsEqualsToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_exclamationEqualsEquals",
                                                                 token: currentChild,
@@ -7226,12 +7227,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_exclamationEqualsEquals$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_exclamationEqualsEquals$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7251,7 +7252,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_exclamationEqualsEquals",
                                                             kindNameOptions: "ExclamationEqualsEqualsToken",
                                                         })
@@ -7261,7 +7262,7 @@ export function parse<Annotation>(
                                             const choose_equalsEqualsEquals = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "EqualsEqualsEqualsToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "EqualsEqualsEqualsToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_equalsEqualsEquals",
                                                                 token: currentChild,
@@ -7270,12 +7271,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_equalsEqualsEquals$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_equalsEqualsEquals$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7295,7 +7296,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_equalsEqualsEquals",
                                                             kindNameOptions: "EqualsEqualsEqualsToken",
                                                         })
@@ -7305,7 +7306,7 @@ export function parse<Annotation>(
                                             const choose_equals = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "EqualsToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "EqualsToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_equals",
                                                                 token: currentChild,
@@ -7314,12 +7315,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_equals$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_equals$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7339,7 +7340,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_equals",
                                                             kindNameOptions: "EqualsToken",
                                                         })
@@ -7349,7 +7350,7 @@ export function parse<Annotation>(
                                             const choose_barBar = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "BarBarToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "BarBarToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_barBar",
                                                                 token: currentChild,
@@ -7358,12 +7359,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_barBar$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_barBar$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7383,7 +7384,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_barBar",
                                                             kindNameOptions: "BarBarToken",
                                                         })
@@ -7393,7 +7394,7 @@ export function parse<Annotation>(
                                             const choose_ampersandAmpersand = () => {
                                                 children.pop(
                                                     (currentChild) => {
-                                                        if (currentChild.kindName !== "AmpersandAmpersandToken") {
+                                                        if ($d.stringsNotEqual(currentChild.kindName, "AmpersandAmpersandToken")) {
                                                             $x.reportUnexpectedToken({
                                                                 path: "Gexpression_binary$_operator_ampersandAmpersand",
                                                                 token: currentChild,
@@ -7402,12 +7403,12 @@ export function parse<Annotation>(
                                                             return
                                                         }
                                                         ((
-                                                            $: uast.TUntypedNode<Annotation>,
-                                                            callback: ($: api.TNGexpression_binary$_operator_ampersandAmpersand$<Annotation>) => void,
+                                                            $: uast.TUntypedNode,
+                                                            callback: ($: api.TNGexpression_binary$_operator_ampersandAmpersand$) => void,
                                                         ): void => {
                                                             const node = $
                                                             const children = pm.createStack($.children)
-                                                            callback($.implementationDetails)
+                                                            callback($.details)
                                                             children.pop(
                                                                 (nextChild) => {
                                                                     $x.reportUnexpectedToken({
@@ -7427,7 +7428,7 @@ export function parse<Annotation>(
                                                     },
                                                     () => { // no child
                                                         $x.reportMissingToken({
-                                                            parentAnnotation: node.implementationDetails,
+                                                            parentDetails: node.details,
                                                             path: "Gexpression_binary$_operator_ampersandAmpersand",
                                                             kindNameOptions: "AmpersandAmpersandToken",
                                                         })
@@ -7490,7 +7491,7 @@ export function parse<Annotation>(
                                         },
                                         () => { //no child
                                             $x.reportMissingToken({
-                                                parentAnnotation: node.implementationDetails,
+                                                parentDetails: node.details,
                                                 path: "Gexpression_binary$_operator",
                                                 kindNameOptions: "AmpersandAmpersandToken, BarBarToken, EqualsToken, EqualsEqualsEqualsToken, ExclamationEqualsEqualsToken, GreaterThanToken, LessThanToken, MinusToken, MinusEqualsToken, PlusToken, PlusEqualsToken",
                                             })
@@ -7516,7 +7517,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_binary",
                                 kindNameOptions: "BinaryExpression",
                             })
@@ -7526,7 +7527,7 @@ export function parse<Annotation>(
                 const choose_arrowFunction = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ArrowFunction") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ArrowFunction")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_arrowFunction",
                                     token: currentChild,
@@ -7535,18 +7536,18 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_arrowFunction$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_arrowFunction$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const sequenceEnd = ($: api.TVTGexpression_arrowFunction$<Annotation>) => {
+                                const sequenceEnd = ($: api.TVTGexpression_arrowFunction$) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 }
-                                const elements = pm.createArrayBuilder<api.TVTGexpression_arrowFunction$_parameters<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGexpression_arrowFunction$_parameters>()
                                 const processElement = () => {
                                     Gparameter(node, children, ($) => {
                                         elements.push($)
@@ -7565,7 +7566,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     const _parameters = $
-                                    let optional: null | api.TVTGexpression_arrowFunction$_returnType<Annotation> = null
+                                    let optional: null | api.TVTGexpression_arrowFunction$_returnType = null
                                     const setOptional = () => {
                                         Gtype(node, children, ($) => {
                                             optional = $
@@ -7630,7 +7631,7 @@ export function parse<Annotation>(
                                         const _returnType = $
                                         children.pop(
                                             (currentChild) => {
-                                                if (currentChild.kindName !== "EqualsGreaterThanToken") {
+                                                if ($d.stringsNotEqual(currentChild.kindName, "EqualsGreaterThanToken")) {
                                                     $x.reportUnexpectedToken({
                                                         path: "Gexpression_arrowFunction$_equalsGreaterThan",
                                                         token: currentChild,
@@ -7639,12 +7640,12 @@ export function parse<Annotation>(
                                                     return
                                                 }
                                                 ((
-                                                    $: uast.TUntypedNode<Annotation>,
-                                                    callback: ($: api.TNGexpression_arrowFunction$_equalsGreaterThan$<Annotation>) => void,
+                                                    $: uast.TUntypedNode,
+                                                    callback: ($: api.TNGexpression_arrowFunction$_equalsGreaterThan$) => void,
                                                 ): void => {
                                                     const node = $
                                                     const children = pm.createStack($.children)
-                                                    callback($.implementationDetails)
+                                                    callback($.details)
                                                     children.pop(
                                                         (nextChild) => {
                                                             $x.reportUnexpectedToken({
@@ -7659,7 +7660,7 @@ export function parse<Annotation>(
                                                     currentChild,
                                                     ($) => {
                                                         const _equalsGreaterThan = $
-                                                        const choiceEnd_Gexpression_arrowFunction$_implementation = ($: api.TVTGexpression_arrowFunction$_implementation<Annotation>) => {
+                                                        const choiceEnd_Gexpression_arrowFunction$_implementation = ($: api.TVTGexpression_arrowFunction$_implementation) => {
                                                             const _implementation = $
                                                             sequenceEnd({
                                                                 "parameters": _parameters,
@@ -7776,7 +7777,7 @@ export function parse<Annotation>(
                                                             },
                                                             () => { //no child
                                                                 $x.reportMissingToken({
-                                                                    parentAnnotation: node.implementationDetails,
+                                                                    parentDetails: node.details,
                                                                     path: "Gexpression_arrowFunction$_implementation",
                                                                     kindNameOptions: "Block, ArrayLiteralExpression, ArrowFunction, BinaryExpression, CallExpression, ConditionalExpression, ElementAccessExpression, FalseKeyword, Identifier, NewExpression, NoSubstitutionTemplateLiteral, NumericLiteral, NullKeyword, ObjectLiteralExpression, ParenthesizedExpression, PostfixUnaryExpression, PrefixUnaryExpression, PropertyAccessExpression, StringLiteral, TemplateExpression, TrueKeyword",
                                                                 })
@@ -7787,7 +7788,7 @@ export function parse<Annotation>(
                                             },
                                             () => { // no child
                                                 $x.reportMissingToken({
-                                                    parentAnnotation: node.implementationDetails,
+                                                    parentDetails: node.details,
                                                     path: "Gexpression_arrowFunction$_equalsGreaterThan",
                                                     kindNameOptions: "EqualsGreaterThanToken",
                                                 })
@@ -7814,7 +7815,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_arrowFunction",
                                 kindNameOptions: "ArrowFunction",
                             })
@@ -7824,7 +7825,7 @@ export function parse<Annotation>(
                 const choose_arrayLiteral = () => {
                     children.pop(
                         (currentChild) => {
-                            if (currentChild.kindName !== "ArrayLiteralExpression") {
+                            if ($d.stringsNotEqual(currentChild.kindName, "ArrayLiteralExpression")) {
                                 $x.reportUnexpectedToken({
                                     path: "Gexpression_arrayLiteral",
                                     token: currentChild,
@@ -7833,12 +7834,12 @@ export function parse<Annotation>(
                                 return
                             }
                             ((
-                                $: uast.TUntypedNode<Annotation>,
-                                callback: ($: api.TNGexpression_arrayLiteral$<Annotation>) => void,
+                                $: uast.TUntypedNode,
+                                callback: ($: api.TNGexpression_arrayLiteral$) => void,
                             ): void => {
                                 const node = $
                                 const children = pm.createStack($.children)
-                                const elements = pm.createArrayBuilder<api.TVTGexpression_arrayLiteral$<Annotation>>()
+                                const elements = pm.createArrayBuilder<api.TVTGexpression_arrayLiteral$>()
                                 const processElement = () => {
                                     Gexpression(node, children, ($) => {
                                         elements.push($)
@@ -7914,7 +7915,7 @@ export function parse<Annotation>(
                                 )
                                 pl.cc(elements.getArray(), ($) => {
                                     callback({
-                                        annotation: node.implementationDetails,
+                                        annotation: node.details,
                                         content: $,
                                     })
                                 })
@@ -7937,7 +7938,7 @@ export function parse<Annotation>(
                         },
                         () => { // no child
                             $x.reportMissingToken({
-                                parentAnnotation: node.implementationDetails,
+                                parentDetails: node.details,
                                 path: "Gexpression_arrayLiteral",
                                 kindNameOptions: "ArrayLiteralExpression",
                             })
@@ -8036,7 +8037,7 @@ export function parse<Annotation>(
             },
             () => { //no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "Gexpression",
                     kindNameOptions: "ArrayLiteralExpression, ArrowFunction, BinaryExpression, CallExpression, ConditionalExpression, ElementAccessExpression, FalseKeyword, Identifier, NewExpression, NoSubstitutionTemplateLiteral, NumericLiteral, NullKeyword, ObjectLiteralExpression, ParenthesizedExpression, PostfixUnaryExpression, PrefixUnaryExpression, PropertyAccessExpression, StringLiteral, TemplateExpression, TrueKeyword",
                 })
@@ -8044,13 +8045,13 @@ export function parse<Annotation>(
         )
     }
     function Gblock(
-        node: uast.TUntypedNode<Annotation>,
-        children: pm.Stack<uast.TUntypedNode<Annotation>>,
-        callback: ($: api.TGblock<Annotation>) => void,
+        node: uast.TUntypedNode,
+        children: pm.Stack<uast.TUntypedNode>,
+        callback: ($: api.TGblock) => void,
     ): void {
         children.pop(
             (currentChild) => {
-                if (currentChild.kindName !== "Block") {
+                if ($d.stringsNotEqual(currentChild.kindName, "Block")) {
                     $x.reportUnexpectedToken({
                         path: "Gblock",
                         token: currentChild,
@@ -8059,12 +8060,12 @@ export function parse<Annotation>(
                     return
                 }
                 ((
-                    $: uast.TUntypedNode<Annotation>,
-                    callback: ($: api.TNGblock$<Annotation>) => void,
+                    $: uast.TUntypedNode,
+                    callback: ($: api.TNGblock$) => void,
                 ): void => {
                     const node = $
                     const children = pm.createStack($.children)
-                    const elements = pm.createArrayBuilder<api.TVTGblock$<Annotation>>()
+                    const elements = pm.createArrayBuilder<api.TVTGblock$>()
                     const processElement = () => {
                         Gstatement(node, children, ($) => {
                             elements.push($)
@@ -8134,7 +8135,7 @@ export function parse<Annotation>(
                     )
                     pl.cc(elements.getArray(), ($) => {
                         callback({
-                            annotation: node.implementationDetails,
+                            annotation: node.details,
                             content: $,
                         })
                     })
@@ -8157,14 +8158,14 @@ export function parse<Annotation>(
             },
             () => { // no child
                 $x.reportMissingToken({
-                    parentAnnotation: node.implementationDetails,
+                    parentDetails: node.details,
                     path: "Gblock",
                     kindNameOptions: "Block",
                 })
             },
         )
     }
-    if ($.kindName !== "SourceFile") {
+    if ($d.stringsNotEqual($.kindName, "SourceFile")) {
         $x.reportUnexpectedToken({
             path: "",
             token: $,
@@ -8173,18 +8174,18 @@ export function parse<Annotation>(
         return
     } else {
         ((
-            $: uast.TUntypedNode<Annotation>,
-            callback: ($: api.TNroot<Annotation>) => void,
+            $: uast.TUntypedNode,
+            callback: ($: api.TNroot) => void,
         ): void => {
             const node = $
             const children = pm.createStack($.children)
-            const sequenceEnd = ($: api.TVTroot<Annotation>) => {
+            const sequenceEnd = ($: api.TVTroot) => {
                 callback({
-                    annotation: node.implementationDetails,
+                    annotation: node.details,
                     content: $,
                 })
             }
-            const elements = pm.createArrayBuilder<api.TVTroot_statements<Annotation>>()
+            const elements = pm.createArrayBuilder<api.TVTroot_statements>()
             const processElement = () => {
                 Gstatement(node, children, ($) => {
                     elements.push($)
@@ -8256,7 +8257,7 @@ export function parse<Annotation>(
                 const _statements = $
                 children.pop(
                     (currentChild) => {
-                        if (currentChild.kindName !== "EndOfFileToken") {
+                        if ($d.stringsNotEqual(currentChild.kindName, "EndOfFileToken")) {
                             $x.reportUnexpectedToken({
                                 path: "root_endOfFile",
                                 token: currentChild,
@@ -8265,12 +8266,12 @@ export function parse<Annotation>(
                             return
                         }
                         ((
-                            $: uast.TUntypedNode<Annotation>,
-                            callback: ($: api.TNroot_endOfFile$<Annotation>) => void,
+                            $: uast.TUntypedNode,
+                            callback: ($: api.TNroot_endOfFile$) => void,
                         ): void => {
                             const node = $
                             const children = pm.createStack($.children)
-                            callback($.implementationDetails)
+                            callback($.details)
                             children.pop(
                                 (nextChild) => {
                                     $x.reportUnexpectedToken({
@@ -8294,7 +8295,7 @@ export function parse<Annotation>(
                     },
                     () => { // no child
                         $x.reportMissingToken({
-                            parentAnnotation: node.implementationDetails,
+                            parentDetails: node.details,
                             path: "root_endOfFile",
                             kindNameOptions: "EndOfFileToken",
                         })

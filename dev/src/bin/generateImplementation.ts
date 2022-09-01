@@ -39,7 +39,7 @@ function genImp(
             }
         },
         {
-
+            orderStrings: (a, b) => a > b,
             createWriteStream: (
                 $,
                 $c,
