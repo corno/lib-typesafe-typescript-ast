@@ -6,7 +6,7 @@
     "pareto-core-state": "^0.6.0"
   },
   "name": "lib-typesafe-typescript-ast",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "Corno",
   "bugs": {
     "url": "https://github.com/corno/typesafe-typescript-ast-lib/issues"
