@@ -11,12 +11,15 @@ import * as test from "lib-pareto-test"
 
 import * as pub from "../../../pub"
 
+export type Dependencies = {
+    parse: ts.Parse
+    lookAhead: uglyStuff.LookAhead
+    doUntil: uglyStuff.DoUntil
+    stringsAreEqual: (a: string, b: string) => boolean
+}
+
 export function createGetTestSet(
-    $d: {
-        parse: ts.Parse
-        lookAhead: uglyStuff.LookAhead
-        doUntil: uglyStuff.DoUntil
-    }
+    $d: Dependencies
 ): test.GetTestSet {
     const deps = $d
     return ($, $d) => {
@@ -79,7 +82,7 @@ export function createGetTestSet(
                     parseDynamic: deps.parse,
                     lookAhead: deps.lookAhead,
                     doUntil: deps.doUntil,
-                    stringsNotEqual: (a, b) => a !== b
+                    stringsAreEqual: deps.stringsAreEqual
                 }
             )
         )
