@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "lib-pareto-exe": "^0.2.4",
+    "lib-pareto-test": "^0.4.1",
+    "res-dynamic-typescript-parser": "^0.15.0",
+    "res-pareto-ugly-stuff": "^0.5.0"
+  }
+}

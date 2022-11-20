@@ -1,8 +1,8 @@
 
 import * as uast from "api-untyped-ast"
-import { DDependencies } from "../dependencies/dependencies"
+import { DDependencies } from "../dependencies/dependencies.p"
 
-import { TRoot } from "../types/ts_api"
+import { TRoot } from "../types/ts_api.p"
 
 export type PParse = (
     $: uast.TUntypedNode,

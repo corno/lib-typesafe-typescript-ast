@@ -1,5 +1,5 @@
-export * from "./public/parse"
+export * from "./public/parse.p"
 
 
-export * from "./public/createDefaultVisitor"
-export * from "./public/visit"
+export * from "./public/createDefaultVisitor.p"
+export * from "./public/visit.p"
