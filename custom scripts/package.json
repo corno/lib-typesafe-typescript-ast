@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "generate-ts-api": "cd ./pareto && ./scripts/buildDevPackage.sh && cd .. && node ./dev/dist/esc/bin/generateCode.js ./pub/src/generated && cd ./pareto && ./scripts/buildAndTest.sh"
-  }
-}
