@@ -1,4 +1,4 @@
-import * as pm from "pareto-core-state"
+import * as pm from 'pareto-core-state'
 
 export type DDependencies = {
     //doUntil: <T>(stack: pm.Stack<T>, callback: ($: T) => boolean) => void,

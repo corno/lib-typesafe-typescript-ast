@@ -6,7 +6,7 @@ const d = pr.wrapRawDictionary
 
 import { $ as api } from "./api.data"
 
-export const $: mproject.TProject = {
+export const $: mproject.T.Project = {
     'author': "Corno",
     'description': "parse typescript source code into a typesafe AST",
     'license': "ISC",

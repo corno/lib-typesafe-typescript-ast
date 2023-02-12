@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import * as pl from "pareto-core-lib"
-import * as pe from "pareto-core-exe"
-import * as pm from "pareto-core-state"
+import * as pl from 'pareto-core-lib'
+import * as pe from 'pareto-core-exe'
+import * as pm from 'pareto-core-state'
 
 
 import * as gta from "lib-generate-typesafe-ast"
