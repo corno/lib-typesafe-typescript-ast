@@ -75,11 +75,11 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                         'cardinality': ["one", null],
                                                         'type': ["reference", { 'name': `expression` }],
                                                     },
-                                                })
+                                                }),
                                             }]
                                         }
                                     },
-                                ])
+                                ]),
                             }],
                         }]
                     }]
@@ -182,7 +182,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                             'type': ["leaf", { 'hasTextContent': false }]
                                                         }]
                                                     }
-                                                })
+                                                }),
                                             }],
                                         }
                                     },
@@ -193,7 +193,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `expression` }],
                                         }
                                     }
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -227,7 +227,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `expression` }]
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -281,7 +281,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `expression` }],
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -308,7 +308,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `expression` }],
                                         }
                                     }
-                                ])
+                                ]),
                             }],
                         }]
                     }]
@@ -350,7 +350,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `expression` }],
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -423,7 +423,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                                 'name': `stringLiteral`
                                                                             }]
                                                                         },
-                                                                    })
+                                                                    }),
                                                                 }]
                                                             }
                                                         },
@@ -434,12 +434,12 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                 'type': ["reference", { 'name': `expression` }],
                                                             }
                                                         },
-                                                    ])
+                                                    ]),
                                                 }]
                                             }]
                                         }]
                                     }
-                                })
+                                }),
                             }]
                         }],
                     }]
@@ -496,7 +496,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `expression` }],
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }],
                     }]
@@ -562,17 +562,17 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                                     'type': ["leaf", { 'hasTextContent': true }]
                                                                                 }],
                                                                             }
-                                                                        })
+                                                                        }),
                                                                     }],
                                                                 }
                                                             },
-                                                        ])
+                                                        ]),
                                                     }]
                                                 }]
                                             }]
                                         }
                                     }
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -584,7 +584,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                         'type': ["leaf", { 'hasTextContent': false }]
                     }]
                 },
-            })
+            }),
         }],
         'functionDefinition': ["sequence", {
             'elements': pw.wrapRawArray([
@@ -613,7 +613,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                         'type': ["reference", { 'name': `type` }],
                     },
                 },
-            ])
+            ]),
         }],
         'getAccessor': ["node", {
             'name': `GetAccessor`,
@@ -639,7 +639,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                 }]
                             }
                         }
-                    ])
+                    ]),
                 }]
             }]
         }],
@@ -661,7 +661,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                         'name': `stringLiteral`
                     }]
                 },
-            })
+            }),
         }],
         'modifier': ["choice", {
             //AbstractKeyword | AsyncKeyword | ConstKeyword | DeclareKeyword | DefaultKeyword | ExportKeyword | PrivateKeyword | ProtectedKeyword | PublicKeyword | OverrideKeyword | ReadonlyKeyword | StaticKeyword;
@@ -687,7 +687,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                         'type': ["leaf", { 'hasTextContent': false }],
                     }]
                 },
-            })
+            }),
         }],
         'numericLiteral': ["node", {
             'name': `NumericLiteral`,
@@ -725,7 +725,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                 'type': ["reference", { 'name': `type` }],
                             }
                         }
-                    ])
+                    ]),
                 }]
             }]
         }],
@@ -800,7 +800,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
 
                                                                         }
                                                                     }
-                                                                ])
+                                                                ]),
                                                             }]
                                                         }]
                                                     }]
@@ -818,11 +818,11 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                         'cardinality': ["one", null],
                                                         'type': ["reference", { 'name': `getAccessor` }]
                                                     }
-                                                })
+                                                }),
                                             }]
                                         }
                                     },
-                                ])
+                                ]),
                             }],
                         }],
                     }]
@@ -889,7 +889,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             }]
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -936,7 +936,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             }]
                                         },
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -970,7 +970,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `statement` }],
                                         },
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1035,14 +1035,14 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                                                 }],
                                                                                             }
                                                                                         },
-                                                                                    ])
+                                                                                    ]),
                                                                                 }]
                                                                             }]
                                                                         }]
                                                                     }]
                                                                 }]
                                                             }
-                                                        })
+                                                        }),
                                                     }]
                                                 }]
                                             }]
@@ -1057,7 +1057,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             }],
                                         }
                                     }
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1102,7 +1102,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `typeSignature` }]
                                         },
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1131,7 +1131,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `statement` }],
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1193,7 +1193,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                                         'type': ["reference", { 'name': `statement` }]
                                                                                     },
                                                                                 }
-                                                                            ])
+                                                                            ]),
                                                                         }]
                                                                     }]
                                                                 }]
@@ -1208,13 +1208,13 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                     }]
                                                                 }]
                                                             },
-                                                        })
+                                                        }),
                                                     }]
                                                 }]
                                             }]
                                         }
                                     },
-                                ])
+                                ]),
                             }],
                         }]
                     }]
@@ -1274,13 +1274,13 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                     }]
                                                                 }
                                                             },
-                                                        ])
+                                                        ]),
                                                     }]
                                                 }]
                                             }]
                                         },
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1325,7 +1325,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `type` }],
                                         },
                                     }
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1354,7 +1354,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             }]
                                         },
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1383,12 +1383,12 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             }],
                                         },
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
                 },
-            })
+            }),
         }],
         'stringLiteral': ["node", {
             'name': `StringLiteral`,
@@ -1444,7 +1444,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `type` }],
                                         },
                                     }
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1470,7 +1470,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'name': `stringLiteral`
                                         }],
                                     },
-                                })
+                                }),
                             }]
                         }]
                     }]
@@ -1582,12 +1582,12 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                                 }],
                                                                             }
                                                                         },
-                                                                    ])
+                                                                    ]),
                                                                 }],
                                                             }]
                                                         }]
                                                     }
-                                                })
+                                                }),
                                             }]
                                         }
                                     },
@@ -1598,7 +1598,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `type` }],
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1627,7 +1627,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                         'type': ["leaf", { 'hasTextContent': false }]
                     }]
                 },
-            })
+            }),
         }],
         'typeParameter': ["node", {
             'name': `TypeParameter`,
@@ -1666,7 +1666,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             }]
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1702,7 +1702,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `type` }],
                                         },
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1733,7 +1733,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             }]
                                         }
                                     },
-                                ])
+                                ]),
                             }]
                         }]
                     }]
@@ -1777,12 +1777,12 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                             'type': ["reference", { 'name': `type` }],
                                         },
                                     }
-                                ])
+                                ]),
                             }]
                         }]
                     }]
                 },
-            })
+            }),
         }],
         'variableDeclaration': ["node", {
             'name': `VariableDeclaration`,
@@ -1829,12 +1829,12 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                                                     }]
                                                                 }]
                                                             }
-                                                        })
+                                                        }),
                                                     }]
                                                 }]
                                             }],
                                         }
-                                    })
+                                    }),
                                 }]
                             },
                         },
@@ -1852,7 +1852,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                                 'type': ["reference", { 'name': `expression` }],
                             },
                         },
-                    ])
+                    ]),
                 }]
             }]
         }],
@@ -1889,7 +1889,7 @@ export const _typeScriptGrammar: gr.TGrammar = {
                             }]
                         }
                     }
-                ])
+                ]),
             }]
         }]
     }
