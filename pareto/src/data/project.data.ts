@@ -42,7 +42,10 @@ export const $: mproject.T.Project<pd.SourceLocation> = {
             }),
             'glossary': {
                 'parameters': d({}),
-                'types': d({}),
+                'root': {
+                    'namespaces': d({}),
+                    'types': d({}),
+                },
                 'builders': d({}),
                 'interfaces': d({}),
                 'functions': d({}),
